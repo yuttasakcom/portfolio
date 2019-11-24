@@ -1,55 +1,45 @@
 <template>
-  <div>
-    <nuxt />
+  <div class="c-main">
+    <s-navigation />
+    <s-content>
+      <nuxt />
+    </s-content>
   </div>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script lang="ts">
+import { createComponent } from '@vue/composition-api'
+import SContent from '~/components/SContent.vue'
+import SNavigation from '~/components/SNavigation.vue'
+
+export default createComponent({
+  name: 'Default',
+  components: {
+    SContent,
+    SNavigation
+  }
+})
+</script>
+
+<style lang="scss">
+@import '../assets/scss/reset.scss';
+@import '../assets/scss/generic.scss';
+
+.c-main {
+  background: #fff;
+  padding: 3.2rem 3.2rem 9.2rem;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
+@media (min-width: 53em) {
+  .c-main {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 120rem;
+    min-height: 100%;
+    padding: 4rem 4rem 7.2rem;
+    width: calc(100vw - 6.4rem);
+  }
 }
 </style>

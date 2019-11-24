@@ -2,7 +2,7 @@
   <div>
     <s-page-title>{{ page.title }}</s-page-title>
     <div class="lead" v-html="page.introduction" />
-    <s-services :services="services" />
+    <div v-html="page.mainContent" />
     <s-social />
   </div>
 </template>
@@ -12,7 +12,6 @@ import axios from 'axios'
 import { createComponent, ref } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
-import SServices from '@/components/SServices.vue'
 import { Route } from 'vue-router/types/'
 
 declare module '@nuxt/types' {
@@ -22,17 +21,16 @@ declare module '@nuxt/types' {
 }
 
 export default createComponent({
-  name: 'Index',
+  name: 'Contact',
 
   components: {
     SSocial,
-    SPageTitle,
-    SServices
+    SPageTitle
   },
 
   head() {
     return {
-      title: 'Home'
+      title: 'Contact'
     }
   },
 
@@ -41,37 +39,11 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const services = await axios.get('https://cms.simonwuyts.com/services.json')
     const pages = await axios.get('https://cms.simonwuyts.com/pages.json')
 
     return {
-      services: services.data.data,
-      page: pages.data.data.filter((page: any) => page.slug === 'home')[0]
+      page: pages.data.data.filter((page: any) => page.slug === 'contact')[0]
     }
   }
 })
 </script>
-
-<style lang="scss">
-.link-vue,
-.link-react {
-  margin-left: 2.2rem;
-  position: relative;
-  white-space: nowrap;
-
-  &:before {
-    background: url('/images/vue.svg') no-repeat center center;
-    background-size: contain;
-    content: '';
-    height: 1.6rem;
-    left: -2.2rem;
-    position: absolute;
-    top: calc(50% - 0.8rem);
-    width: 1.8rem;
-  }
-}
-
-.link-react:before {
-  background-image: url('/images/react.svg');
-}
-</style>
