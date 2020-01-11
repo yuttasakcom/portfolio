@@ -58,7 +58,7 @@ export default createComponent({
   p,
   ul:not([class]),
   ol:not([class]) {
-    color: var(gray-500);
+    color: var(--gray-500);
     line-height: 3.2rem;
     margin-bottom: 1.6rem;
   }
@@ -111,7 +111,8 @@ export default createComponent({
   }
 
   blockquote {
-    font: 2rem/3.2rem var(--font-stack, sans-serif);
+    font-size: 2rem;
+    line-height: 3.2rem;
     font-style: italic;
     margin: 4rem 0;
 
@@ -151,9 +152,21 @@ export default createComponent({
     margin: 5.6rem 0;
     max-width: 100%;
 
-    &.wide {
-      margin: 5.6rem -7.2rem;
-      max-width: calc(100% + 14.4rem);
+    &.full {
+      margin: 5.6rem -3.2rem;
+      max-width: calc(100% + 6.4rem);
+    }
+
+    @media (min-width: 53em) {
+      &.wide {
+        margin: 5.6rem -7.2rem;
+        max-width: calc(100% + 14.4rem);
+      }
+
+      &.full {
+        margin: 7.2rem -28rem;
+        max-width: calc(100% + 56rem);
+      }
     }
   }
 

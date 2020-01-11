@@ -39,7 +39,7 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const pages = await axios.get('https://cms.simonwuyts.com/pages.json')
+    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'about')[0]

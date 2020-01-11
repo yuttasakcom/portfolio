@@ -51,8 +51,8 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const pages = await axios.get('https://cms.simonwuyts.com/pages.json')
-    const articles = await axios.get('https://cms.simonwuyts.com/articles.json')
+    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
+    const articles = await axios.get('https://cms.simonwuyts.eu/articles.json')
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'articles')[0],
@@ -86,6 +86,7 @@ export default createComponent({
   color: var(--gray-400);
   flex: none;
   line-height: 2.8rem;
+  padding-top: 0.2rem;
   width: 16rem;
 }
 

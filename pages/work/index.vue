@@ -11,7 +11,7 @@
         :to="`work/${caseItem.slug}`"
       >
         <div
-          class="c-case__inner"
+          class="c-case__cover"
           :style="{
             backgroundImage: `url('${caseItem.coverImage.url}')`
           }"
@@ -58,8 +58,8 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const pages = await axios.get('https://cms.simonwuyts.com/pages.json')
-    const cases = await axios.get('https://cms.simonwuyts.com/cases.json')
+    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
+    const cases = await axios.get('https://cms.simonwuyts.eu/cases.json')
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'work')[0],
@@ -70,72 +70,32 @@ export default createComponent({
 </script>
 
 <style lang="scss">
-.c-cases {
-  display: grid;
-  grid-gap: 2.4rem;
-  grid-template-columns: 1fr 1fr;
-  margin: 0 8rem;
-}
-
 .c-case {
-  background: linear-gradient(to bottom, var(--gray-100), var(--gray-100));
   border: 0;
-  border-radius: 0.4rem;
   display: block;
-  height: 0;
-  overflow: hidden;
-  padding-bottom: 74%;
-  position: relative;
+  margin-bottom: 4rem;
 
   &:hover {
     border: 0 !important;
   }
 }
 
-.c-case__inner {
+.c-case__cover {
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: contain;
-  bottom: 1.6rem;
-  left: 1.6rem;
-  position: absolute;
-  right: 1.6rem;
-  top: 1.6rem;
+  background-size: cover;
+  border-radius: 0.4rem;
+  height: 0;
+  overflow: hidden;
+  padding-bottom: 48%;
   transition: transform 0.3s ease-in-out;
 }
 
 .c-case__title {
-  background-color: rgba(var(--gray-900), 0.85);
-  bottom: 0;
-  color: #fff;
-  font: normal 1.6rem/2.4rem 'adelle-sans', sans-serif;
-  left: 0;
-  padding: 1.6rem;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  transition: background-color 0.3s ease-in-out;
-  -webkit-font-smoothing: antialiased;
-}
-
-.c-case:hover {
-  .c-case__inner {
-    transform: scale(1.05);
-  }
-
-  .c-case__title {
-    background-color: rgba(var(--blue-500), 0.9);
-  }
-}
-
-@media (max-width: 53em) {
-  .c-cases {
-    display: block;
-    margin: 0;
-  }
-
-  .c-case {
-    margin-bottom: 2.4rem;
-  }
+  color: var(--gray-900);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+  margin-top: 2.4rem;
 }
 </style>

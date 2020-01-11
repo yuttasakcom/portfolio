@@ -43,7 +43,7 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const articles = await axios.get('https://cms.simonwuyts.com/articles.json')
+    const articles = await axios.get('https://cms.simonwuyts.eu/articles.json')
 
     return {
       article: articles.data.data.filter(

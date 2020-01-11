@@ -64,7 +64,7 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const cases = await axios.get('https://cms.simonwuyts.com/cases.json')
+    const cases = await axios.get('https://cms.simonwuyts.eu/cases.json')
 
     return {
       caseItem: cases.data.data.filter(
@@ -79,7 +79,6 @@ export default createComponent({
 .c-tags {
   display: flex;
   flex-wrap: wrap;
-  font-family: 'adelle-sans', sans-serif;
   margin-bottom: 4rem;
 }
 
