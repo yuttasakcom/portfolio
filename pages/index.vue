@@ -44,7 +44,9 @@ export default createComponent({
     const services = await axios.get(
       'https://portfolio.simonwuyts.eu/portfolio/items/services?fields=*.*'
     )
-    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
+    const pages = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/pages?fields=*.*'
+    )
 
     return {
       services: services.data.data,

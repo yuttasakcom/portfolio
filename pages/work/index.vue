@@ -12,7 +12,7 @@
         {{ caseItem.title }}
       </s-link-list-item>
     </s-link-list>
-    <div v-html="page.mainContent" />
+    <div v-html="page.content" />
 
     <s-social />
   </div>
@@ -54,7 +54,9 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
+    const pages = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/pages?fields=*.*'
+    )
     const cases = await axios.get(
       'https://portfolio.simonwuyts.eu/portfolio/items/cases?fields=*.*'
     )

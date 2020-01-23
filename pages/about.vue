@@ -2,7 +2,7 @@
   <div>
     <s-page-title>{{ page.title }}</s-page-title>
     <div class="lead" v-html="page.introduction" />
-    <div v-html="page.mainContent" />
+    <div v-html="page.content" />
     <s-social />
   </div>
 </template>
@@ -39,7 +39,9 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
+    const pages = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/pages?fields=*.*'
+    )
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'about')[0]

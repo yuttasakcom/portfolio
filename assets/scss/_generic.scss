@@ -1,5 +1,3 @@
-@import url('https://rsms.me/inter/inter.css');
-
 :root {
   --gray-900: #262829;
   --gray-500: #454c4e;
@@ -54,15 +52,6 @@ body {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 // Nuxt-specific styles

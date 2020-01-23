@@ -2,7 +2,7 @@
   <div>
     <s-page-title>{{ page.title }}</s-page-title>
     <div class="lead" v-html="page.introduction" v-if="page.introduction" />
-    <div v-html="page.mainContent" v-if="page.mainContent" />
+    <div v-html="page.content" v-if="page.content" />
     <s-link-list>
       <s-link-list-item
         :to="`articles/${article.slug}`"
@@ -54,7 +54,9 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
+    const pages = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/pages?fields=*.*'
+    )
     const articles = await axios.get(
       'https://portfolio.simonwuyts.eu/portfolio/items/articles?fields=*.*'
     )
