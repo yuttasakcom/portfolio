@@ -63,7 +63,9 @@ export default createComponent({
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'articles')[0],
-      articles: articles.data.data
+      articles: articles.data.data.filter(
+        (article: any) => article.status === 'published'
+      )
     }
   },
 

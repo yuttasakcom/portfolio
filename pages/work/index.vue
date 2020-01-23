@@ -63,7 +63,9 @@ export default createComponent({
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'work')[0],
-      cases: cases.data.data
+      cases: cases.data.data.filter(
+        (caseItem: any) => caseItem.status === 'published'
+      )
     }
   }
 })
