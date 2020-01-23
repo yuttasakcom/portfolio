@@ -3,17 +3,16 @@
     <s-page-title>{{ page.title }}</s-page-title>
     <div class="lead" v-html="page.introduction" v-if="page.introduction" />
     <div v-html="page.mainContent" v-if="page.mainContent" />
-    <div class="c-articles">
-      <nuxt-link
+    <s-link-list>
+      <s-link-list-item
         :to="`articles/${article.slug}`"
-        class="c-article"
+        :subtitle="formatDate(article.date)"
         v-for="article in articles"
         :key="article.id"
       >
-        <div class="c-article__date">{{ formatDate(article.date) }}</div>
-        <h2 class="c-article__title">{{ article.title }}</h2>
-      </nuxt-link>
-    </div>
+        {{ article.title }}
+      </s-link-list-item>
+    </s-link-list>
     <s-social />
   </div>
 </template>
@@ -22,6 +21,8 @@
 import axios from 'axios'
 import { format } from 'date-fns'
 import { createComponent, ref } from '@vue/composition-api'
+import SLinkList from '~/components/SLinkList.vue'
+import SLinkListItem from '~/components/SLinkListItem.vue'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
 import { Route } from 'vue-router/types/'
@@ -36,6 +37,8 @@ export default createComponent({
   name: 'Articles',
 
   components: {
+    SLinkList,
+    SLinkListItem,
     SSocial,
     SPageTitle
   },
@@ -52,7 +55,9 @@ export default createComponent({
     }
 
     const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
-    const articles = await axios.get('https://cms.simonwuyts.eu/articles.json')
+    const articles = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/articles?fields=*.*'
+    )
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'articles')[0],
@@ -67,43 +72,3 @@ export default createComponent({
   }
 })
 </script>
-
-<style lang="scss">
-.c-articles {
-  margin: 4rem 0;
-}
-
-.c-article {
-  display: flex;
-  margin-bottom: 2.4rem;
-
-  &:hover {
-    border: 0 !important;
-  }
-}
-
-.c-article__date {
-  color: var(--gray-400);
-  flex: none;
-  line-height: 2.8rem;
-  padding-top: 0.2rem;
-  width: 16rem;
-}
-
-.c-article__title {
-  color: var(--gray-900);
-  flex: 1 1 0;
-  margin: 0 !important;
-  transition: color 0.1s linear;
-}
-
-.c-article:hover .c-article__title {
-  color: var(--blue-500);
-}
-
-@media (max-width: 32em) {
-  .c-article {
-    display: block;
-  }
-}
-</style>

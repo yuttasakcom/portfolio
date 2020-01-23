@@ -1,0 +1,40 @@
+@keyframes circleAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes linesAnimation {
+  0% {
+    stroke-dashoffset: 194;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.c-logo {
+  color: var(--blue-500);
+  display: block;
+  height: 3.2rem;
+  width: 3.2rem;
+}
+
+.c-logo__circle {
+  animation: 0.2s linear 1 0.5s both circleAnimation;
+}
+
+.c-logo__line {
+  animation: 1s cubic-bezier(0.165, 0.84, 0.44, 1) 1 0.5s both linesAnimation;
+  stroke-dasharray: 97, 97;
+  stroke-dashoffset: 0;
+}
+
+.c-logo__line--animating,
+.c-logo:hover .c-logo__line {
+  stroke-dashoffset: 194;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}

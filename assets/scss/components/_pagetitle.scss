@@ -1,0 +1,27 @@
+.c-title {
+  color: var(--gray-900);
+  font: 800 8.25vw/1.3 var(--font-stack);
+  letter-spacing: -0.03em;
+  margin-bottom: 8.49vw;
+  position: relative;
+  text-align: center;
+  text-shadow: 0.6rem 0.3rem 0 #fff, -0.6rem 0.3rem 0 #fff;
+}
+
+.c-title__inner {
+  background: linear-gradient(to top, var(--blue-500), var(--blue-500)) repeat-x
+    left 1.13em / 100% 0.5rem;
+}
+
+@media (max-width: 40em) {
+  .c-title__inner {
+    background-size: 100% 0.2rem;
+  }
+}
+
+@media (min-width: 53em) {
+  .c-title {
+    font-size: 7rem;
+    margin-bottom: 7.2rem;
+  }
+}

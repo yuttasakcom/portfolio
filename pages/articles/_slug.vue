@@ -3,7 +3,7 @@
     <div class="c-date">{{ formatDate(article.date) }}</div>
     <s-page-title> {{ article.title }} </s-page-title>
     <div class="lead" v-html="article.introduction" />
-    <div v-html="article.mainContent" />
+    <div v-html="article.content" />
     <s-social />
   </div>
 </template>
@@ -43,7 +43,9 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const articles = await axios.get('https://cms.simonwuyts.eu/articles.json')
+    const articles = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/articles?fields=*.*'
+    )
 
     return {
       article: articles.data.data.filter(
@@ -63,5 +65,3 @@ export default createComponent({
   }
 })
 </script>
-
-<style lang="scss"></style>

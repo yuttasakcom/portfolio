@@ -1,10 +1,10 @@
 <template>
   <div>
     <img
-      :src="caseItem.coverImage.url"
-      :alt="caseItem.coverImage.title"
+      :src="caseItem.cover.data.url"
+      :alt="caseItem.title"
       class="c-cover"
-      v-if="caseItem.coverImage !== null"
+      v-if="caseItem.cover"
     />
     <s-page-title> {{ caseItem.title }} </s-page-title>
     <div class="lead" v-html="caseItem.introduction" />
@@ -15,9 +15,9 @@
         class="c-tags__item"
       >
         <a
-          v-if="item.tagUrl !== ''"
+          v-if="item.link !== ''"
           class="c-tags__label"
-          :href="item.tagUrl"
+          :href="item.link"
           target="_blank"
         >
           {{ item.label }}
@@ -27,7 +27,7 @@
         </span>
       </li>
     </ul>
-    <div v-html="caseItem.mainContent" />
+    <div v-html="caseItem.content" />
     <s-social />
   </div>
 </template>
@@ -64,7 +64,9 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const cases = await axios.get('https://cms.simonwuyts.eu/cases.json')
+    const cases = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/cases?fields=*.*'
+    )
 
     return {
       caseItem: cases.data.data.filter(
@@ -74,36 +76,3 @@ export default createComponent({
   }
 })
 </script>
-
-<style lang="scss">
-.c-tags {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 4rem;
-}
-
-.c-tags__item {
-  margin: 0 0.8rem 0.8rem 0;
-}
-
-.c-tags__label {
-  background: var(--gray-100);
-  border-radius: 0.4rem;
-  color: var(--gray-500);
-  display: inline-flex;
-  font-size: 1.4rem;
-  padding: 0 0.8rem;
-  transition: all 0.1s linear;
-  white-space: nowrap;
-}
-
-a.c-tags__label:hover {
-  background-color: var(--blue-500);
-  border: 0;
-  color: #fff;
-}
-
-.lead + .c-tags {
-  margin-top: -2.4rem;
-}
-</style>

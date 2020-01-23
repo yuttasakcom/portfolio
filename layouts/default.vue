@@ -22,24 +22,5 @@ export default createComponent({
 </script>
 
 <style lang="scss">
-@import '../assets/scss/reset.scss';
-@import '../assets/scss/generic.scss';
-
-.c-main {
-  background: #fff;
-  padding: 3.2rem 3.2rem 9.2rem;
-}
-
-@media (min-width: 53em) {
-  .c-main {
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    max-width: 120rem;
-    min-height: 100%;
-    padding: 4rem 4rem 7.2rem;
-    width: calc(100vw - 6.4rem);
-  }
-}
+@import '../assets/scss/main.scss';
 </style>

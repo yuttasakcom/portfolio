@@ -41,7 +41,9 @@ export default createComponent({
       return await axios.get($payloadURL(route))
     }
 
-    const services = await axios.get('https://cms.simonwuyts.eu/services.json')
+    const services = await axios.get(
+      'https://portfolio.simonwuyts.eu/portfolio/items/services?fields=*.*'
+    )
     const pages = await axios.get('https://cms.simonwuyts.eu/pages.json')
 
     return {
@@ -51,27 +53,3 @@ export default createComponent({
   }
 })
 </script>
-
-<style lang="scss">
-.link-vue,
-.link-react {
-  margin-left: 2.2rem;
-  position: relative;
-  white-space: nowrap;
-
-  &:before {
-    background: url('/images/vue.svg') no-repeat center center;
-    background-size: contain;
-    content: '';
-    height: 1.6rem;
-    left: -2.2rem;
-    position: absolute;
-    top: calc(50% - 0.8rem);
-    width: 1.8rem;
-  }
-}
-
-.link-react:before {
-  background-image: url('/images/react.svg');
-}
-</style>

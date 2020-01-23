@@ -1,0 +1,21 @@
+.link-vue,
+.link-react {
+  margin-left: 2.2rem;
+  position: relative;
+  white-space: nowrap;
+
+  &:before {
+    background: url('/images/vue.svg') no-repeat center center;
+    background-size: contain;
+    content: '';
+    height: 1.6rem;
+    left: -2.2rem;
+    position: absolute;
+    top: calc(50% - 0.8rem);
+    width: 1.8rem;
+  }
+}
+
+.link-react:before {
+  background-image: url('/images/react.svg');
+}
