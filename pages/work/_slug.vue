@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import { api } from '~/plugins/cms'
 import { createComponent, ref } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
@@ -59,14 +59,8 @@ export default createComponent({
     }
   },
 
-  async asyncData({ $payloadURL, route, params }) {
-    if (process.static && process.client && $payloadURL) {
-      return await axios.get($payloadURL(route))
-    }
-
-    const cases = await axios.get(
-      'https://portfolio.simonwuyts.eu/portfolio/items/cases?fields=*.*'
-    )
+  async asyncData({ params }) {
+    const cases = await api('cases')
 
     return {
       caseItem: cases.data.data.filter(

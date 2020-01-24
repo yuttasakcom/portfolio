@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import { api } from '~/plugins/cms'
 import { format } from 'date-fns'
 import { highlightAll } from 'prismjs'
 import 'prism-theme-night-owl'
@@ -38,14 +38,8 @@ export default createComponent({
     }
   },
 
-  async asyncData({ $payloadURL, route, params }) {
-    if (process.static && process.client && $payloadURL) {
-      return await axios.get($payloadURL(route))
-    }
-
-    const articles = await axios.get(
-      'https://portfolio.simonwuyts.eu/portfolio/items/articles?fields=*.*'
-    )
+  async asyncData({ params }) {
+    const articles = await api('articles')
 
     return {
       article: articles.data.data.filter(

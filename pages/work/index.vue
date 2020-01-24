@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import { api } from '~/plugins/cms'
 import { createComponent, ref } from '@vue/composition-api'
 import SLinkList from '~/components/SLinkList.vue'
 import SLinkListItem from '~/components/SLinkListItem.vue'
@@ -49,17 +49,9 @@ export default createComponent({
     }
   },
 
-  async asyncData({ $payloadURL, route }) {
-    if (process.static && process.client && $payloadURL) {
-      return await axios.get($payloadURL(route))
-    }
-
-    const pages = await axios.get(
-      'https://portfolio.simonwuyts.eu/portfolio/items/pages?fields=*.*'
-    )
-    const cases = await axios.get(
-      'https://portfolio.simonwuyts.eu/portfolio/items/cases?fields=*.*'
-    )
+  async asyncData() {
+    const pages = await api('pages')
+    const cases = await api('cases')
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'work')[0],

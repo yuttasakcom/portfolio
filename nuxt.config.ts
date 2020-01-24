@@ -1,3 +1,5 @@
+import { join } from 'path'
+
 export default {
   mode: 'universal',
 
@@ -25,9 +27,12 @@ export default {
     ]
   },
 
+  env: {
+    dataDir: join(__dirname, 'dist/data')
+  },
+
   loading: { color: '#fff' },
   css: [],
   plugins: ['@/plugins/composition-api'],
-  modules: ['nuxt-payload-extractor'],
   buildModules: ['@nuxt/typescript-build']
 }
