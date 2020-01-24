@@ -28,7 +28,10 @@ if (process.server && process.static) {
   api.interceptors.response.use(
     async function(response) {
       // Do something with response data
-      const path = join(process.env.dataDir, response.request.path + '.json')
+      const path = join(
+        process.env.dataDir,
+        response.request.path + '.json'
+      ).replace(/\?fields=\*\.\*/, '')
       console.log('Save', path)
       await mkdirp(dirname(path))
       writeFileSync(path, JSON.stringify(response.data))
