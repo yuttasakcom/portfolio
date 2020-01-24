@@ -3,7 +3,7 @@ import axios from 'axios'
 let baseURL = 'https://portfolio.simonwuyts.eu/portfolio/items'
 
 if (process.browser && process.static) {
-  baseURL = '/data'
+  baseURL = '/data/portfolio/items'
 }
 
 const api = axios.create({ baseURL })
