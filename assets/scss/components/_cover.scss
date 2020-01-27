@@ -1,0 +1,18 @@
+.c-cover {
+  border-radius: 0.8rem;
+  display: block;
+  margin: -7.2rem 0 4.8rem;
+  overflow: hidden;
+
+  @media (max-width: 53em) {
+    border-radius: 0;
+    margin: -3.2rem -3.2rem 3.2rem;
+  }
+}
+
+.c-cover__image {
+  display: block;
+  margin: auto;
+  max-width: 64rem;
+  width: 100%;
+}

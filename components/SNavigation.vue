@@ -17,7 +17,6 @@
         to="/work"
         class="c-navigation__item"
         active-class="c-navigation__item--active"
-        exact
       >
         Work
       </nuxt-link>
@@ -33,7 +32,6 @@
         to="/articles"
         class="c-navigation__item"
         active-class="c-navigation__item--active"
-        exact
       >
         Articles
       </nuxt-link>

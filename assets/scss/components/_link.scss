@@ -1,7 +1,9 @@
 .link-vue,
 .link-react {
+  color: var(--blue-600);
   margin-left: 2.2rem;
   position: relative;
+  text-decoration: none;
   white-space: nowrap;
 
   &:before {

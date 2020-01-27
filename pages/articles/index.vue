@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="c-content__center">
     <s-page-title>{{ page.title }}</s-page-title>
     <div class="lead" v-html="page.introduction" v-if="page.introduction" />
     <div v-html="page.content" v-if="page.content" />
@@ -26,12 +26,6 @@ import SLinkListItem from '~/components/SLinkListItem.vue'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
 import { Route } from 'vue-router/types/'
-
-declare module '@nuxt/types' {
-  interface Context {
-    $payloadURL(message: Route): string
-  }
-}
 
 export default createComponent({
   name: 'Articles',

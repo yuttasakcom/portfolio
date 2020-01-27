@@ -2,7 +2,11 @@
   <div class="c-services">
     <div class="c-service" v-for="service in services">
       <div class="c-service__icon">
-        <img :src="service.image.data.url" :alt="service.title" />
+        <img
+          class="c-service__image"
+          :src="service.image.data.url"
+          :alt="service.title"
+        />
       </div>
       <div class="c-service__description">
         <h2>{{ service.title }}</h2>

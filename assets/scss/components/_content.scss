@@ -1,12 +1,21 @@
 .c-content {
   padding: 7.2rem 0;
 
+  @media (max-width: 53em) {
+    padding: 0;
+  }
+
   .lead p {
     color: var(--gray-900);
     font-size: 2rem;
     letter-spacing: -0.02em;
     line-height: 3.2rem;
-    margin-bottom: 4.8rem;
+    margin-bottom: 3.2rem;
+
+    @media (max-width: 53em) {
+      font-size: 1.8rem;
+      line-height: 3rem;
+    }
 
     strong {
       color: #000;
@@ -35,19 +44,32 @@
     }
   }
 
+  h3.center {
+    text-align: center;
+  }
+
   p,
   ul:not([class]),
   ol:not([class]) {
     color: var(--gray-500);
-    line-height: 3.2rem;
+    line-height: 2.8rem;
     margin-bottom: 1.6rem;
+
+    @media (max-width: 53em) {
+      margin-bottom: 0.8rem;
+    }
   }
 
   ul:not([class]),
   ol:not([class]) {
     list-style-type: square;
-    margin: 3.2rem 0;
+    margin: 2.4rem 0;
     padding-left: 3.2rem;
+
+    @media (max-width: 53em) {
+      padding-left: 1.6rem;
+      margin: 1.6rem;
+    }
   }
 
   ol:not([class]) {
@@ -57,19 +79,23 @@
   li:not([class]) {
     margin-bottom: 1.6rem;
     padding-left: 0.8rem;
+
+    @media (max-width: 53em) {
+      margin-bottom: 0.8rem;
+    }
   }
 
   code {
-    background: var(--blue-100);
+    background: linear-gradient(to bottom, var(--blue-50), var(--blue-100));
     border-radius: 0.4rem;
     color: var(--blue-600);
-    font: 1.4rem SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    font: 600 1.4rem SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
       'Courier New', monospace;
     padding: 0.2rem 0.4rem;
   }
 
   pre {
-    background: var(--gray-900);
+    background: #011626;
     border-radius: 0.4rem;
     color: #fff;
     display: block;
@@ -81,6 +107,7 @@
     code {
       background: none;
       color: inherit;
+      font-weight: normal;
       padding: 0;
     }
   }
@@ -117,7 +144,8 @@
     font-style: italic;
   }
 
-  a {
+  a:not([class]),
+  a[class=''] {
     color: var(--blue-600);
     text-decoration: none;
 
@@ -126,46 +154,33 @@
     }
   }
 
-  img,
+  img:not([class]),
   iframe {
     display: block;
-    margin: 5.6rem 0;
+    margin: 5.6rem auto;
     max-width: 100%;
+  }
 
-    &.full {
-      margin: 5.6rem -3.2rem;
-      max-width: calc(100% + 6.4rem);
-    }
-
-    @media (min-width: 53em) {
-      &.wide {
-        margin: 5.6rem -7.2rem;
-        max-width: calc(100% + 14.4rem);
-      }
-
-      &.full {
-        margin: 7.2rem -28rem;
-        max-width: calc(100% + 56rem);
-      }
-    }
+  img:not([class]) {
+    height: auto;
   }
 
   iframe {
     width: calc(100% + 14.4rem);
   }
 
-  img.preview {
-    border-radius: 0.4rem;
-    box-shadow: 0 1rem 7.2rem rgba(#000, 0.1);
-  }
+  @media (max-width: 53em) {
+    padding: 0;
 
-  .c-cover {
-    left: 50%;
-    margin: -5.6rem 0 5.6rem;
-    max-height: 56rem;
-    max-width: calc(100% + 14.4rem);
-    position: relative;
-    transform: translateX(-50%);
+    figure {
+      margin-left: -3.2rem;
+      margin-right: -3.2rem;
+    }
+
+    img:not([class]),
+    iframe {
+      margin: 3.2rem auto;
+    }
   }
 
   .c-date {
@@ -179,32 +194,11 @@
   }
 }
 
-@media (max-width: 53em) {
-  .c-content {
-    padding: 0;
-
-    img.wide,
-    iframe.wide {
-      margin: 4rem 0;
-      max-width: 100%;
-    }
-
-    .c-cover {
-      margin: 0 0 4rem;
-      max-width: 100%;
-    }
-  }
-}
-
-@media (min-width: 53em) {
-  .c-content {
+.c-content__center {
+  @media (min-width: 53em) {
     flex: none;
     margin: auto;
     max-width: 64rem;
     width: 100%;
-
-    p {
-      line-height: 2.8rem;
-    }
   }
 }

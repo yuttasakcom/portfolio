@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="c-content__center">
     <div class="c-date">{{ formatDate(article.date) }}</div>
     <s-page-title> {{ article.title }} </s-page-title>
     <div class="lead" v-html="article.introduction" />
@@ -13,16 +13,10 @@ import { api } from '~/plugins/cms'
 import { format } from 'date-fns'
 import { highlightAll } from 'prismjs'
 import 'prism-theme-night-owl'
-import { createComponent } from '@vue/composition-api'
+import { createComponent, onMounted } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
 import { Route } from 'vue-router/types/'
-
-declare module '@nuxt/types' {
-  interface Context {
-    $payloadURL(message: Route): string
-  }
-}
 
 export default createComponent({
   name: 'Article',
@@ -48,14 +42,18 @@ export default createComponent({
     }
   },
 
-  methods: {
-    formatDate(date) {
+  setup() {
+    const formatDate = date => {
       return format(new Date(date), 'MMMM d, yyyy')
     }
-  },
 
-  mounted() {
-    highlightAll()
+    onMounted(() => {
+      highlightAll()
+    })
+
+    return {
+      formatDate
+    }
   }
 })
 </script>

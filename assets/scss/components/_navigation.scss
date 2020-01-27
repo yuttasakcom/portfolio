@@ -39,8 +39,7 @@
 
 @media (max-width: 53em) {
   .c-navigation {
-    background: #fff;
-    box-shadow: 0 0.3rem 0.5rem 0.3rem rgba(0, 0, 0, 0.15);
+    background: var(--gray-900);
     bottom: 0;
     left: 0;
     margin: 0;
@@ -54,13 +53,25 @@
   @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .c-navigation {
       --safe-area-inset-bottom: env(safe-area-inset-bottom);
-      padding-bottom: calc(2.4rem + var(--safe-area-inset-bottom));
+      padding-bottom: calc(max(2.4rem, var(--safe-area-inset-bottom)));
     }
   }
 
   .c-navigation__left {
     flex: 1 1 auto;
     justify-content: space-around;
+  }
+
+  .c-navigation__item {
+    color: var(--gray-200);
+
+    &:hover:not(.c-navigation__item--active):not(.c-language__item--active) {
+      color: var(--gray-100);
+    }
+  }
+
+  .c-navigation__item--active {
+    color: #fff;
   }
 
   .c-navigation__item + .c-navigation__item {

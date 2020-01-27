@@ -1,49 +1,56 @@
 <template>
   <div>
-    <img
-      :src="caseItem.cover.data.url"
-      :alt="caseItem.title"
+    <div
       class="c-cover"
+      :style="{
+        background: `linear-gradient(to bottom, ${
+          getBackgroundColors(caseItem.color)[0]
+        }, ${getBackgroundColors(caseItem.color)[1]})`
+      }"
       v-if="caseItem.cover"
-    />
-    <s-page-title> {{ caseItem.title }} </s-page-title>
-    <div class="lead" v-html="caseItem.introduction" />
-    <ul class="c-tags">
-      <li
-        v-for="item in caseItem.techStack"
-        :key="item.label"
-        class="c-tags__item"
-      >
-        <a
-          v-if="item.link !== ''"
-          class="c-tags__label"
-          :href="item.link"
-          target="_blank"
+    >
+      <img
+        class="c-cover__image"
+        :src="`${caseItem.cover.data.url}?key=casecover`"
+        :alt="caseItem.title"
+      />
+    </div>
+
+    <div class="c-content__center">
+      <s-page-title> {{ caseItem.title }} </s-page-title>
+      <div class="lead" v-html="caseItem.introduction" />
+      <ul class="c-tags">
+        <li
+          v-for="item in caseItem.techStack"
+          :key="item.label"
+          class="c-tags__item"
         >
-          {{ item.label }}
-        </a>
-        <span v-else class="c-tags__label">
-          {{ item.label }}
-        </span>
-      </li>
-    </ul>
-    <div v-html="caseItem.content" />
-    <s-social />
+          <a
+            v-if="item.link !== ''"
+            class="c-tags__label"
+            :href="item.link"
+            target="_blank"
+          >
+            {{ item.label }}
+          </a>
+          <span v-else class="c-tags__label">
+            {{ item.label }}
+          </span>
+        </li>
+      </ul>
+      <div v-html="caseItem.content" />
+      <s-social />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { api } from '~/plugins/cms'
 import { createComponent, ref } from '@vue/composition-api'
+import Color from 'color'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
 import { Route } from 'vue-router/types/'
-
-declare module '@nuxt/types' {
-  interface Context {
-    $payloadURL(message: Route): string
-  }
-}
 
 export default createComponent({
   name: 'Case',
@@ -66,6 +73,18 @@ export default createComponent({
       caseItem: cases.data.data.filter(
         (caseItem: any) => caseItem.slug === params.slug
       )[0]
+    }
+  },
+
+  setup() {
+    const getBackgroundColors = (baseColor: string): string[] => {
+      const parsedBaseColor = Color(baseColor)
+      const parsedBackgroundColor1 = parsedBaseColor.mix(Color('#fff'), 0.9)
+      const parsedBackgroundColor2 = parsedBaseColor.mix(Color('#fff'), 0.7)
+      return [parsedBackgroundColor1.hex(), parsedBackgroundColor2.hex()]
+    }
+    return {
+      getBackgroundColors
     }
   }
 })

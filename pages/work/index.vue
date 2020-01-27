@@ -1,42 +1,41 @@
 <template>
   <div>
-    <s-page-title>{{ page.title }}</s-page-title>
-    <div class="lead" v-html="page.introduction" />
-    <s-link-list>
-      <s-link-list-item
-        :to="`work/${caseItem.slug}`"
-        :subtitle="caseItem.subtitle"
-        v-for="caseItem in cases"
-        :key="caseItem.title"
-      >
-        {{ caseItem.title }}
-      </s-link-list-item>
-    </s-link-list>
-    <div v-html="page.content" />
+    <div class="c-content__center">
+      <s-page-title>{{ page.title }}</s-page-title>
+      <div class="lead" v-html="page.introduction" />
+    </div>
 
-    <s-social />
+    <s-cases :cases="cases" />
+
+    <div class="c-content__center">
+      <div v-html="page.content" />
+    </div>
+
+    <s-clients :clients="clients" />
+
+    <div class="c-content__center">
+      <s-social />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { api } from '~/plugins/cms'
+import { api } from '~/plugins/cms.ts'
 import { createComponent, ref } from '@vue/composition-api'
+import SCases from '~/components/SCases.vue'
+import SClients from '~/components/SClients.vue'
 import SLinkList from '~/components/SLinkList.vue'
 import SLinkListItem from '~/components/SLinkListItem.vue'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
 import { Route } from 'vue-router/types/'
 
-declare module '@nuxt/types' {
-  interface Context {
-    $payloadURL(message: Route): string
-  }
-}
-
 export default createComponent({
   name: 'Work',
 
   components: {
+    SCases,
+    SClients,
     SLinkList,
     SLinkListItem,
     SSocial,
@@ -52,12 +51,14 @@ export default createComponent({
   async asyncData() {
     const pages = await api('pages')
     const cases = await api('cases')
+    const clients = await api('clients')
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'work')[0],
       cases: cases.data.data.filter(
         (caseItem: any) => caseItem.status === 'published'
-      )
+      ),
+      clients: clients.data.data
     }
   }
 })

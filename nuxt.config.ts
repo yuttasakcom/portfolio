@@ -34,5 +34,18 @@ export default {
   loading: { color: '#fff' },
   css: [],
   plugins: ['@/plugins/composition-api'],
-  buildModules: ['@nuxt/typescript-build']
+  buildModules: ['@nuxt/typescript-build'],
+  build: {
+    babel: {
+      plugins: [
+        [
+          'prismjs',
+          {
+            languages: ['javascript', 'css', 'markup', 'swift'],
+            css: false
+          }
+        ]
+      ]
+    }
+  }
 }
