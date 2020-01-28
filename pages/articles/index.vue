@@ -49,9 +49,13 @@ export default createComponent({
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'articles')[0],
-      articles: articles.data.data.filter(
-        (article: any) => article.status === 'published'
-      )
+      articles: articles.data.data
+        .filter((article: any) => article.status === 'published')
+        .sort((a, b) => {
+          a = new Date(a.date)
+          b = new Date(b.date)
+          return a > b ? -1 : a < b ? 1 : 0
+        })
     }
   },
 

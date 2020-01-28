@@ -1,4 +1,5 @@
 import { join } from 'path'
+import { api } from './plugins/cms'
 
 export default {
   mode: 'universal',
@@ -46,6 +47,19 @@ export default {
           }
         ]
       ]
+    }
+  },
+  generate: {
+    async routes() {
+      const {
+        data: { data: articles }
+      } = await api.get('articles')
+      const {
+        data: { data: cases }
+      } = await api.get('cases')
+      const articleRoutes = articles.map(article => `/articles/${article.slug}`)
+      const caseRoutes = cases.map(item => `/work/${item.slug}`)
+      return [...articleRoutes, ...caseRoutes]
     }
   }
 }

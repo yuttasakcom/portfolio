@@ -12,7 +12,7 @@
 import { api } from '~/plugins/cms'
 import { format } from 'date-fns'
 import { highlightAll } from 'prismjs'
-import 'prism-theme-night-owl'
+// import 'prism-theme-night-owl'
 import { createComponent, onMounted } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
