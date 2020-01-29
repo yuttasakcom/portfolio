@@ -11,7 +11,7 @@
 <script lang="ts">
 import { createComponent } from '@vue/composition-api'
 import SContent from '~/components/SContent.vue'
-import SFilters from '~/components/SFilters.vue'
+import SFilters from '~/assets/svg/filters.svg'
 import SNavigation from '~/components/SNavigation.vue'
 
 export default createComponent({

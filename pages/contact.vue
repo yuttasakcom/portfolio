@@ -12,7 +12,6 @@ import { api } from '~/plugins/cms'
 import { createComponent, ref } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
-import { Route } from 'vue-router/types/'
 
 export default createComponent({
   name: 'Contact',

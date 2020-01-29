@@ -3,6 +3,7 @@
     <div class="c-date">{{ formatDate(article.date) }}</div>
     <s-page-title> {{ article.title }} </s-page-title>
     <div class="lead" v-html="article.introduction" />
+    <s-tags :tags="article.tags" />
     <div v-html="article.content" />
     <s-social />
   </div>
@@ -12,18 +13,19 @@
 import { api } from '~/plugins/cms'
 import { format } from 'date-fns'
 import { highlightAll } from 'prismjs'
-// import 'prism-theme-night-owl'
+import 'prism-theme-night-owl/style.min.css'
 import { createComponent, onMounted } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
-import { Route } from 'vue-router/types/'
+import STags from '~/components/STags.vue'
 
 export default createComponent({
   name: 'Article',
 
   components: {
     SSocial,
-    SPageTitle
+    SPageTitle,
+    STags
   },
 
   head(this: any) {

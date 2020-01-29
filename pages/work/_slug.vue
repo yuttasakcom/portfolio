@@ -19,25 +19,7 @@
     <div class="c-content__center">
       <s-page-title> {{ caseItem.title }} </s-page-title>
       <div class="lead" v-html="caseItem.introduction" />
-      <ul class="c-tags">
-        <li
-          v-for="item in caseItem.techStack"
-          :key="item.label"
-          class="c-tags__item"
-        >
-          <a
-            v-if="item.link !== ''"
-            class="c-tags__label"
-            :href="item.link"
-            target="_blank"
-          >
-            {{ item.label }}
-          </a>
-          <span v-else class="c-tags__label">
-            {{ item.label }}
-          </span>
-        </li>
-      </ul>
+      <s-tags :tags="caseItem.tech_stack" />
       <div v-html="caseItem.content" />
       <s-social />
     </div>
@@ -50,14 +32,15 @@ import { createComponent, ref } from '@vue/composition-api'
 import Color from 'color'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
-import { Route } from 'vue-router/types/'
+import STags from '~/components/STags.vue'
 
 export default createComponent({
   name: 'Case',
 
   components: {
     SSocial,
-    SPageTitle
+    SPageTitle,
+    STags
   },
 
   head(this: any) {

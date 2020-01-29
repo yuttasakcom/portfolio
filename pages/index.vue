@@ -13,7 +13,6 @@ import { createComponent, ref } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
 import SServices from '~/components/SServices.vue'
-import { Route } from 'vue-router/types/'
 
 export default createComponent({
   name: 'Index',

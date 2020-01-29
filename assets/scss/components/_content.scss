@@ -44,10 +44,6 @@
     }
   }
 
-  h3.center {
-    text-align: center;
-  }
-
   p,
   ul:not([class]),
   ol:not([class]) {
@@ -120,22 +116,82 @@
   blockquote {
     font-size: 2rem;
     line-height: 3.2rem;
-    font-style: italic;
-    margin: 4rem 0;
+    margin: 6.4rem auto;
+    max-width: 48rem;
+
+    @media (max-width: 53em) {
+      font-size: 1.8rem;
+      line-height: 2.4rem;
+    }
 
     p {
-      border-left: 0.1rem solid var(--gray-200);
       color: var(--gray-900);
       line-height: 3.2rem;
-      padding-left: 3.2rem;
       position: relative;
+      text-align: center;
+
+      @media (max-width: 53em) {
+        margin-bottom: 1.6rem;
+      }
+
+      &:before,
+      &:after {
+        background: linear-gradient(
+          to bottom,
+          rgba(#0076ff, 0.05),
+          rgba(#0076ff, 0.15)
+        );
+        background-clip: text;
+        color: var(--blue-500);
+        font-weight: 700;
+        font-size: 16rem;
+        line-height: 1;
+        pointer-events: none;
+        position: absolute;
+        -webkit-text-fill-color: transparent;
+        top: 50%;
+        transform: translateY(-55%);
+      }
+
+      &:before {
+        content: '« ';
+        left: -4.8rem;
+      }
+
+      &:after {
+        content: ' »';
+        right: -4.8rem;
+      }
     }
 
     footer {
       color: var(--gray-400);
       font-size: 1.6rem;
-      padding-left: 3.2rem;
+      line-height: 2.8rem;
+      padding-top: 1.6rem;
+      position: relative;
+      text-align: center;
+
+      @media (max-width: 53em) {
+        font-size: 1.4rem;
+        line-height: 2.4rem;
+      }
+
+      &:after {
+        background: var(--gray-200);
+        content: '';
+        height: 1px;
+        left: 50%;
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%);
+        width: 50%;
+      }
     }
+  }
+
+  .center {
+    text-align: center !important;
   }
 
   .note {
@@ -166,7 +222,18 @@
   }
 
   iframe {
-    width: calc(100% + 14.4rem);
+    width: 100%;
+  }
+
+  figure {
+    display: block;
+    margin-left: -5.6rem;
+    margin-right: -5.6rem;
+
+    img:not([class]),
+    iframe {
+      border-radius: 0.8rem;
+    }
   }
 
   @media (max-width: 53em) {

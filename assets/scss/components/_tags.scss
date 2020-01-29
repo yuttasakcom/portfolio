@@ -15,6 +15,7 @@
   display: inline-flex;
   font-size: 1.4rem;
   padding: 0 0.8rem;
+  text-decoration: none;
   transition: all 0.1s linear;
   white-space: nowrap;
 }
@@ -23,8 +24,9 @@ a.c-tags__label:hover {
   background-color: var(--blue-500);
   border: 0;
   color: #fff;
+  text-decoration: none;
 }
 
 .lead + .c-tags {
-  margin-top: -2.4rem;
+  margin-top: -1.6rem;
 }

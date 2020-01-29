@@ -35,7 +35,9 @@ export default {
   loading: { color: '#fff' },
   css: [],
   plugins: ['@/plugins/composition-api'],
+  modules: ['nuxt-svg-loader'],
   buildModules: ['@nuxt/typescript-build'],
+
   build: {
     babel: {
       plugins: [
@@ -49,6 +51,15 @@ export default {
       ]
     }
   },
+
+  svgLoader: {
+    svgoConfig: {
+      plugins: [
+        { prefixIds: false } // Disables prefixing for SVG IDs
+      ]
+    }
+  },
+
   generate: {
     async routes() {
       const {

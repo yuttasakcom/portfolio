@@ -28,7 +28,6 @@ import SLinkList from '~/components/SLinkList.vue'
 import SLinkListItem from '~/components/SLinkListItem.vue'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
-import { Route } from 'vue-router/types/'
 
 export default createComponent({
   name: 'Work',
