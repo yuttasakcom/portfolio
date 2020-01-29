@@ -244,9 +244,12 @@
       margin-right: -3.2rem;
     }
 
-    img:not([class]),
-    iframe {
+    img:not([class]) {
       margin: 3.2rem auto;
+    }
+
+    iframe {
+      margin: 3.2rem 3.2rem;
     }
   }
 
