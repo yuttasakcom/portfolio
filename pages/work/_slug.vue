@@ -17,6 +17,7 @@
     </div>
 
     <div class="c-content__center">
+      <div class="c-date">{{ caseItem.subtitle }}</div>
       <s-page-title> {{ caseItem.title }} </s-page-title>
       <div class="lead" v-html="caseItem.introduction" />
       <s-tags :tags="caseItem.tech_stack" />
