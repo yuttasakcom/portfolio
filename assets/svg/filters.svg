@@ -21,6 +21,7 @@
         <feGaussianBlur
           in="displacementMap"
           stdDeviation="1"
+          color-interpolation-filters="sRGB"
           result="blur"
         ></feGaussianBlur>
         <feColorMatrix
@@ -29,7 +30,8 @@
           values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
           result="contrast"
         ></feColorMatrix>
-        <feOffset in="contrast" dy="2"></feOffset>
+        <feComposite in="SourceGraphic" in2="contrast" mode="overlay" result="blend"></feComposite>
+        <feOffset in="blend" dy="2"></feOffset>
       </filter>
     </defs>
   </svg>
