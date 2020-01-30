@@ -1,8 +1,10 @@
 .c-cases {
   display: grid;
   grid-gap: 3.2rem;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 3.2rem 0 7.2rem;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 3.2rem auto 7.2rem;
+  max-width: 80rem;
+  pointer-events: none;
 
   @media (max-width: 55em) {
     grid-template-columns: repeat(1, 1fr);
@@ -19,11 +21,16 @@
   display: block;
   height: 28rem;
   overflow: hidden;
+  pointer-events: auto;
   position: relative;
 
   @media (min-width: 55em) {
     &:nth-child(1) {
       grid-column: span 2;
+
+      .c-case__image {
+        background-size: auto 120%;
+      }
     }
   }
 
@@ -37,8 +44,9 @@
 }
 
 .c-case__image {
-  background-position: center center;
-  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: auto 90%;
   bottom: 0;
   left: 0;
   position: absolute;

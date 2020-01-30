@@ -1,18 +1,21 @@
 <template>
   <div>
-    <div
-      class="c-cover"
-      :style="{
-        background: `linear-gradient(to bottom, ${
-          getBackgroundColors(caseItem.color)[0]
-        }, ${getBackgroundColors(caseItem.color)[1]})`
-      }"
-      v-if="caseItem.cover"
-    >
+    <div class="c-cover" v-if="caseItem.cover">
+      <div
+        class="c-cover__background"
+        :style="{
+          background: `linear-gradient(to bottom, ${
+            getBackgroundColors(caseItem.color)[0]
+          }, ${getBackgroundColors(caseItem.color)[1]})`
+        }"
+      ></div>
       <img
         class="c-cover__image"
         :src="`${caseItem.cover.data.url}?key=casecover`"
         :alt="caseItem.title"
+        :style="{
+          transform: `translateY(${coverImageOffset}px)`
+        }"
       />
     </div>
 
@@ -29,7 +32,12 @@
 
 <script lang="ts">
 import { api } from '~/plugins/cms'
-import { createComponent, ref } from '@vue/composition-api'
+import {
+  createComponent,
+  ref,
+  onMounted,
+  onUnmounted
+} from '@vue/composition-api'
 import Color from 'color'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
@@ -61,13 +69,29 @@ export default createComponent({
   },
 
   setup() {
+    const coverImageOffset = ref(0)
+
+    const handleScroll = () => {
+      coverImageOffset.value = window.scrollY * 0.5
+    }
+
+    onMounted(() => {
+      window.addEventListener('scroll', handleScroll, false)
+    })
+
+    onUnmounted(() => {
+      window.removeEventListener('scroll', handleScroll, false)
+    })
+
     const getBackgroundColors = (baseColor: string): string[] => {
       const parsedBaseColor = Color(baseColor)
       const parsedBackgroundColor1 = parsedBaseColor.mix(Color('#fff'), 0.9)
       const parsedBackgroundColor2 = parsedBaseColor.mix(Color('#fff'), 0.7)
       return [parsedBackgroundColor1.hex(), parsedBackgroundColor2.hex()]
     }
+
     return {
+      coverImageOffset,
       getBackgroundColors
     }
   }

@@ -5,13 +5,8 @@
       class="c-client"
       v-for="client in clients"
       :key="client.name"
-    >
-      <img
-        :src="client.logo.data.url"
-        :alt="client.name"
-        class="c-client__logo"
-      />
-    </a>
+      v-html="client.logo_markup"
+    />
   </div>
 </template>
 
@@ -22,7 +17,10 @@ export default createComponent({
   name: 'SClients',
 
   props: {
-    clients: Array
+    clients: {
+      type: Array,
+      required: true
+    }
   }
 })
 </script>
