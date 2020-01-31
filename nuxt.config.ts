@@ -23,6 +23,10 @@ export default {
         content: 'website'
       },
       {
+        property: 'og:title',
+        content: 'Simon Wuyts - Interaction Designer & Front-end Developer'
+      },
+      {
         property: 'og:image',
         content: 'https://www.simonwuyts.com/images/social.png'
       },
@@ -33,6 +37,10 @@ export default {
       {
         property: 'twitter:image',
         content: 'https://www.simonwuyts.com/images/social.png'
+      },
+      {
+        property: 'twitter:title',
+        content: 'Simon Wuyts - Interaction Designer & Front-end Developer'
       }
     ],
     link: [
