@@ -1,6 +1,16 @@
 <template>
   <div class="c-social">
-    <h3>Find me online or <nuxt-link to="/contact">get in touch</nuxt-link></h3>
+    <h3 class="c-social__title">
+      <template v-if="showSlogan">
+        <div class="c-social__primary">
+          Want to know more? Looking for something similar?
+        </div>
+      </template>
+      <div class="c-social__secondary">
+        Find me online or
+        <nuxt-link to="/contact">get in touch</nuxt-link>
+      </div>
+    </h3>
     <ul class="c-social-links">
       <li class="c-social-links__item">
         <a
@@ -60,7 +70,16 @@
 </template>
 
 <script lang="ts">
+import { createComponent } from '@vue/composition-api'
+
 export default {
-  name: 'SSocial'
+  name: 'SSocial',
+
+  props: {
+    showSlogan: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>

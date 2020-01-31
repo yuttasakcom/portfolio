@@ -2,6 +2,9 @@
   <div class="c-cases">
     <nuxt-link
       class="c-case"
+      :class="{
+        'c-case--featured': item.featured
+      }"
       v-for="item in cases"
       :key="item.id"
       :to="`/work/${item.slug}`"

@@ -24,21 +24,21 @@
   pointer-events: auto;
   position: relative;
 
-  @media (min-width: 55em) {
-    &:nth-child(1) {
-      grid-column: span 2;
-
-      .c-case__image {
-        background-size: auto 120%;
-      }
-    }
-  }
-
   &:hover {
     border-bottom: 0 !important;
 
     .c-case__info {
       transform: translateY(0);
+    }
+  }
+}
+
+@media (min-width: 55em) {
+  .c-case--featured {
+    grid-column: span 2;
+
+    .c-case__image {
+      background-size: auto 120%;
     }
   }
 }

@@ -5,7 +5,8 @@
   position: relative;
 
   @media (max-width: 53em) {
-    margin: -3.2rem -3.2rem 3.2rem;
+    margin: -5.6rem -3.2rem 3.2rem;
+    padding-top: 2.4rem;
   }
 }
 
@@ -20,10 +21,21 @@
 
   @media (max-width: 53em) {
     border-radius: 0;
+    top: 0;
+  }
+}
+
+@keyframes enterCoverImage {
+  0% {
+    transform: translateY(1.6rem);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
 .c-cover__image {
+  animation: enterCoverImage 2s cubic-bezier(0.19, 1, 0.22, 1) 0.5s 1 both;
   display: block;
   height: auto;
   margin: auto;

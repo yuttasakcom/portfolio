@@ -23,7 +23,7 @@
     }
   }
 
-  h2 {
+  h2:not([class]) {
     font: 600 2.2rem/3.2rem var(--font-stack, sans-serif);
     letter-spacing: -0.018em;
     margin: 4rem 0 1.6rem;
@@ -33,7 +33,7 @@
     }
   }
 
-  h3 {
+  h3:not([class]) {
     font-size: 2rem;
     font-weight: 600;
     letter-spacing: -0.018em;
@@ -257,6 +257,17 @@
     figure {
       margin-left: -3.2rem;
       margin-right: -3.2rem;
+
+      img:not([class]),
+      video:not([class]),
+      iframe {
+        border-radius: 0rem;
+      }
+    }
+
+    figcaption {
+      margin: -1.6rem 0 3.2rem;
+      padding: 0 3.2rem;
     }
 
     video:not([class]),

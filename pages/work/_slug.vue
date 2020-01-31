@@ -13,9 +13,6 @@
         class="c-cover__image"
         :src="`${caseItem.cover.data.url}?key=casecover`"
         :alt="caseItem.title"
-        :style="{
-          transform: `translateY(${coverImageOffset}px)`
-        }"
       />
     </div>
 
@@ -25,7 +22,7 @@
       <div class="lead" v-html="caseItem.introduction" />
       <s-tags :tags="caseItem.tech_stack" />
       <div v-html="caseItem.content" />
-      <s-social />
+      <s-social :show-slogan="true" />
     </div>
   </div>
 </template>
@@ -69,20 +66,6 @@ export default createComponent({
   },
 
   setup() {
-    const coverImageOffset = ref(0)
-
-    const handleScroll = () => {
-      coverImageOffset.value = Math.max(window.scrollY * 0.5, 0)
-    }
-
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll, false)
-    })
-
-    onUnmounted(() => {
-      window.removeEventListener('scroll', handleScroll, false)
-    })
-
     const getBackgroundColors = (baseColor: string): string[] => {
       const parsedBaseColor = Color(baseColor)
       const parsedBackgroundColor1 = parsedBaseColor.mix(Color('#fff'), 0.9)
@@ -91,7 +74,6 @@ export default createComponent({
     }
 
     return {
-      coverImageOffset,
       getBackgroundColors
     }
   }
