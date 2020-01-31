@@ -56,6 +56,7 @@ export default {
   buildModules: ['@nuxt/typescript-build'],
 
   build: {
+    extractCSS: true,
     babel: {
       plugins: [
         [
