@@ -1,8 +1,10 @@
 # Portfolio website
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/12e0a236-248f-44d8-85af-c0911f147b20/deploy-status)](https://app.netlify.com/sites/simonwuyts/deploys)
+
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 
