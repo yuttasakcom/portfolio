@@ -2,6 +2,7 @@
   <div class="c-clients">
     <a
       :href="client.link"
+      target="_blank"
       class="c-client"
       v-for="client in clients"
       :key="client.name"
