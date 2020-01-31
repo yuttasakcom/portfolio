@@ -15,7 +15,24 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Simon Wuyts Portfolio'
+        content:
+          'Interaction designer and front-end developer. Dreams in HTML, CSS and Javascript, lives in Ghent, Belgium. Helps other people build digital products.'
+      },
+      {
+        name: 'og:type',
+        content: 'website'
+      },
+      {
+        name: 'og:image',
+        content: '/images/social.png'
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        name: 'twitter:image',
+        content: '/images/social.png'
       }
     ],
     link: [
@@ -35,7 +52,7 @@ export default {
   loading: { color: '#fff' },
   css: [],
   plugins: ['@/plugins/composition-api'],
-  modules: ['nuxt-svg-loader'],
+  modules: ['nuxt-svg-loader', '@nuxtjs/sitemap'],
   buildModules: ['@nuxt/typescript-build'],
 
   build: {
@@ -76,5 +93,9 @@ export default {
         .map(item => `/work/${item.slug}`)
       return [...articleRoutes, ...caseRoutes]
     }
+  },
+
+  sitemap: {
+    hostname: 'https://www.simonwuyts.com'
   }
 }

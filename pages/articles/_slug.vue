@@ -30,7 +30,14 @@ export default createComponent({
 
   head(this: any) {
     return {
-      title: this.article.title
+      title: this.article.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.article.introduction
+        }
+      ]
     }
   },
 

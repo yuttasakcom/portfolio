@@ -51,7 +51,14 @@ export default createComponent({
 
   head(this: any) {
     return {
-      title: this.caseItem.title
+      title: this.caseItem.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.caseItem.introduction
+        }
+      ]
     }
   },
 
