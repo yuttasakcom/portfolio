@@ -11,8 +11,16 @@
   display: block;
   margin: 1.6rem 3.2rem;
 
+  @media (max-width: 55em) {
+    margin: 1.6rem 2.4rem;
+  }
+
   svg {
     display: block;
+
+    @media (max-width: 55em) {
+      max-width: 12rem;
+    }
   }
 
   svg * {
