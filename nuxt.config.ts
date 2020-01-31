@@ -24,7 +24,7 @@ export default {
       },
       {
         property: 'og:image',
-        content: process.env.baseUrl + '/images/social.png'
+        content: 'https://www.simonwuyts.com/images/social.png'
       },
       {
         property: 'twitter:card',
@@ -32,7 +32,7 @@ export default {
       },
       {
         property: 'twitter:image',
-        content: process.env.baseUrl + '/images/social.png'
+        content: 'https://www.simonwuyts.com/images/social.png'
       }
     ],
     link: [
@@ -46,7 +46,6 @@ export default {
   },
 
   env: {
-    baseUrl: 'https://www.simonwuyts.com',
     dataDir: join(__dirname, 'dist/data')
   },
 
