@@ -19,19 +19,19 @@ export default {
           'Interaction designer and front-end developer. Dreams in HTML, CSS and Javascript, lives in Ghent, Belgium. Helps other people build digital products.'
       },
       {
-        name: 'og:type',
+        property: 'og:type',
         content: 'website'
       },
       {
-        name: 'og:image',
+        property: 'og:image',
         content: '/images/social.png'
       },
       {
-        name: 'twitter:card',
+        property: 'twitter:card',
         content: 'summary_large_image'
       },
       {
-        name: 'twitter:image',
+        property: 'twitter:image',
         content: '/images/social.png'
       }
     ],
