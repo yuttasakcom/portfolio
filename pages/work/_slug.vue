@@ -72,7 +72,7 @@ export default createComponent({
     const coverImageOffset = ref(0)
 
     const handleScroll = () => {
-      coverImageOffset.value = window.scrollY * 0.5
+      coverImageOffset.value = Math.max(window.scrollY * 0.5, 0)
     }
 
     onMounted(() => {

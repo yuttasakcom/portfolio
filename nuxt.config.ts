@@ -68,8 +68,12 @@ export default {
       const {
         data: { data: cases }
       } = await api.get('cases')
-      const articleRoutes = articles.map(article => `/articles/${article.slug}`)
-      const caseRoutes = cases.map(item => `/work/${item.slug}`)
+      const articleRoutes = articles
+        .filter(article => article.status === 'published')
+        .map(article => `/articles/${article.slug}`)
+      const caseRoutes = cases
+        .filter(item => item.status === 'published')
+        .map(item => `/work/${item.slug}`)
       return [...articleRoutes, ...caseRoutes]
     }
   }
