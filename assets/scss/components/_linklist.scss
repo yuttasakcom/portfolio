@@ -23,7 +23,9 @@
 .c-link-list-item__title {
   color: var(--gray-900);
   flex: 1 1 0;
-  margin: 0 !important;
+  font: 600 2rem/3.2rem var(--font-stack, sans-serif);
+  letter-spacing: -0.018em;
+  margin: 0;
   transition: color 0.1s linear;
 }
 

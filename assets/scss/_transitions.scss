@@ -8,16 +8,47 @@
 
 .page-enter {
   opacity: 0;
-  transform: translateY(0.8rem);
 }
 
 .page-enter-to,
 .page-leave {
   opacity: 1;
-  transform: none;
 }
 
 .page-leave-to {
   opacity: 0;
-  transform: translateY(0.8rem);
+}
+
+@keyframes enterFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(1.6rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes enterFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.enter-fade-up {
+  animation: enterFadeUp 0.35s cubic-bezier(0.23, 1, 0.32, 1) 0s 1 both;
+}
+
+.enter-fade-in {
+  animation: enterFadeIn 0.35s linear 0s 1 both;
+}
+
+@for $i from 1 through 20 {
+  .enter-delay-#{$i} {
+    animation-delay: 0.03s * $i;
+  }
 }

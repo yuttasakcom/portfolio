@@ -1,5 +1,5 @@
 <template>
-  <h1 class="c-title">
+  <h1 class="c-title enter-fade-up">
     <div class="c-title__border">
       <span class="c-title__inner">
         <slot />

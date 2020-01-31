@@ -1,11 +1,9 @@
 <template>
   <div class="c-cases">
     <nuxt-link
-      class="c-case"
-      :class="{
-        'c-case--featured': item.featured
-      }"
-      v-for="item in cases"
+      class="c-case enter-fade-up"
+      :class="`enter-delay-${index + 2}`"
+      v-for="(item, index) in cases"
       :key="item.id"
       :to="`/work/${item.slug}`"
       :style="{

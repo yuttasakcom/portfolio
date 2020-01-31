@@ -1,6 +1,10 @@
 <template>
   <div class="c-services">
-    <div class="c-service" v-for="service in services">
+    <div
+      class="c-service"
+      :class="`enter-fade-up enter-delay-${index + 2}`"
+      v-for="(service, index) in services"
+    >
       <div class="c-service__icon">
         <img
           class="c-service__image"

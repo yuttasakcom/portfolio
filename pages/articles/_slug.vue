@@ -1,10 +1,13 @@
 <template>
   <div class="c-content__center">
-    <div class="c-date">{{ formatDate(article.date) }}</div>
+    <div class="c-date enter-fade-in">{{ formatDate(article.date) }}</div>
     <s-page-title> {{ article.title }} </s-page-title>
-    <div class="lead" v-html="article.introduction" />
-    <s-tags :tags="article.tags" />
-    <div v-html="article.content" />
+    <div
+      class="lead enter-fade-up enter-delay-1"
+      v-html="article.introduction"
+    />
+    <s-tags class="enter-fade-up enter-delay-1" :tags="article.tags" />
+    <div class="enter-fade-up enter-delay-2" v-html="article.content" />
     <s-social />
   </div>
 </template>

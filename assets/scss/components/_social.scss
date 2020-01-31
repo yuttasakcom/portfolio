@@ -2,8 +2,14 @@
   margin-top: 6.4rem;
 
   a {
-    display: inline;
+    color: var(--blue-600);
     margin: 0 0.2rem;
+    padding: 0.2rem 0;
+    text-decoration: none;
+
+    &:hover {
+      border-bottom: 1px solid currentColor;
+    }
   }
 }
 

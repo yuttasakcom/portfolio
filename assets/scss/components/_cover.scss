@@ -12,7 +12,7 @@
 
 .c-cover__background {
   border-radius: 0.8rem;
-  bottom: 0;
+  height: 40rem - 2.4rem;
   left: 0;
   position: absolute;
   right: 0;
@@ -21,21 +21,13 @@
 
   @media (max-width: 53em) {
     border-radius: 0;
+    bottom: 0;
+    height: auto;
     top: 0;
   }
 }
 
-@keyframes enterCoverImage {
-  0% {
-    transform: translateY(1.6rem);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 .c-cover__image {
-  animation: enterCoverImage 2s cubic-bezier(0.19, 1, 0.22, 1) 0.5s 1 both;
   display: block;
   height: auto;
   margin: auto;

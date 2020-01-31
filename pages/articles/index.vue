@@ -1,13 +1,22 @@
 <template>
   <div class="c-content__center">
     <s-page-title>{{ page.title }}</s-page-title>
-    <div class="lead" v-html="page.introduction" v-if="page.introduction" />
-    <div v-html="page.content" v-if="page.content" />
+    <div
+      class="lead enter-fade-up enter-delay-1"
+      v-html="page.introduction"
+      v-if="page.introduction"
+    />
+    <div
+      class="enter-fade-up enter-delay-1"
+      v-html="page.content"
+      v-if="page.content"
+    />
     <s-link-list>
       <s-link-list-item
+        :class="`enter-fade-up enter-delay-${index + 1}`"
         :to="`articles/${article.slug}`"
         :subtitle="formatDate(article.date)"
-        v-for="article in articles"
+        v-for="(article, index) in articles"
         :key="article.id"
       >
         {{ article.title }}

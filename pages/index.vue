@@ -1,7 +1,7 @@
 <template>
   <div class="c-content__center">
     <s-page-title>{{ page.title }}</s-page-title>
-    <div class="lead" v-html="page.introduction" />
+    <div class="lead enter-fade-up enter-delay-1" v-html="page.introduction" />
     <s-services :services="services" />
     <s-social />
   </div>

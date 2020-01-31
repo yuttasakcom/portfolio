@@ -17,9 +17,14 @@
     </div>
 
     <div class="c-content__center">
-      <div class="c-date">{{ caseItem.subtitle }}</div>
-      <s-page-title> {{ caseItem.title }} </s-page-title>
-      <div class="lead" v-html="caseItem.introduction" />
+      <div class="c-date enter-fade-in enter-delay-1">
+        {{ caseItem.subtitle }}
+      </div>
+      <s-page-title class="enter-delay-1"> {{ caseItem.title }} </s-page-title>
+      <div
+        class="lead enter-fade-up enter-delay-2"
+        v-html="caseItem.introduction"
+      />
       <s-tags :tags="caseItem.tech_stack" />
       <div v-html="caseItem.content" />
       <s-social :show-slogan="true" />
