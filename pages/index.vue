@@ -30,8 +30,7 @@ export default createComponent({
   },
 
   async asyncData() {
-    const services = await api('services')
-    const pages = await api('pages')
+    const [pages, services] = await Promise.all([api('pages'), api('services')])
 
     return {
       services: services.data.data,

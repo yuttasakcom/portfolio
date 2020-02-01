@@ -52,8 +52,7 @@ export default createComponent({
   },
 
   async asyncData() {
-    const pages = await api('pages')
-    const articles = await api('articles')
+    const [pages, articles] = await Promise.all([api('pages'), api('articles')])
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'articles')[0],

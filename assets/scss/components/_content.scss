@@ -117,7 +117,9 @@
     font-size: 2rem;
     line-height: 3.2rem;
     margin: 6.4rem auto;
-    max-width: 48rem;
+    max-width: 56rem;
+    padding: 0 4rem;
+    overflow: hidden;
 
     @media (max-width: 53em) {
       font-size: 1.8rem;
