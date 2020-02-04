@@ -11,7 +11,9 @@
       ></div>
       <img
         class="c-cover__image"
-        :src="`${caseItem.cover.data.url}?key=casecover`"
+        :src="
+          `https://portfolio.simonwuyts.eu/portfolio/assets/${caseItem.cover.private_hash}?key=caseheader`
+        "
         :alt="caseItem.title"
       />
     </div>

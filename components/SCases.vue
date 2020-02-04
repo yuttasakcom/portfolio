@@ -15,7 +15,7 @@
       <div
         class="c-case__image"
         :style="{
-          'background-image': `url('${item.cover.data.url}?key=casethumb')`
+          'background-image': `url('https://portfolio.simonwuyts.eu/portfolio/assets/${item.cover.private_hash}?key=casethumb')`
         }"
         v-if="item.cover"
       />
