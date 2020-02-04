@@ -1,22 +1,18 @@
-# Portfolio website
+# Portfolio Website
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/57576b33-3234-4226-b594-16286f9b9f51/deploy-status)](https://app.netlify.com/sites/simonwuyts/deploys)
+![Netlify Status](https://api.netlify.com/api/v1/badges/57576b33-3234-4226-b594-16286f9b9f51/deploy-status)
 
-## Build Setup
+This is the source code of my personal website, [simonwuyts.com](https://www.simonwuyts.com).
 
-```bash
-# install dependencies
-$ yarn install
+[![Screenshot](screenshot.png)](https://www.simonwuyts.com/)
 
-# serve with hot reload at localhost:3000
-$ yarn run dev
+---
 
-# build for production and launch server
-$ yarn run build
-$ yarn start
+Making this website would have been a lot harder without these wonderful open-source projects:
 
-# generate static project
-$ yarn run generate
-```
+- [Vue.js](https://github.com/vuejs/vue)
+- [Nuxt.js](https://github.com/nuxt/nuxt.js/)
+- [Nuxt payload extractor](https://github.com/DreaMinder/nuxt-payload-extractor)
+- [Directus](https://github.com/directus/directus)
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+If you have any questions about this website, feel free to [send me a message](mailto:hi@simonwuyts.com).

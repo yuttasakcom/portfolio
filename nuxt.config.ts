@@ -1,5 +1,39 @@
-import { join } from 'path'
 import { api } from './plugins/cms'
+
+const createFeed = async (feed: any, extension: string) => {
+  const {
+    data: { data: articles }
+  } = await api.get('articles')
+
+  const filteredArticles = articles
+    .filter(article => article.status === 'published')
+    .sort((a, b) => {
+      a = new Date(a.date)
+      b = new Date(b.date)
+      return a > b ? 1 : a < b ? -1 : 0
+    })
+
+  feed.options = {
+    title: 'Simon Wuyts - Articles',
+    link: `https://www.simonwuyts.com/articles/feed.${extension}`
+  }
+
+  filteredArticles.forEach(article => {
+    feed.addItem({
+      title: article.title,
+      id: article.slug,
+      link: `https://www.simonwuyts.com/articles/${article.slug}`,
+      description: article.introduction,
+      content: article.content
+    })
+  })
+
+  feed.addContributor({
+    name: 'Simon Wuyts',
+    email: 'hi@simonwuyts.com',
+    link: 'https://www.simonwuyts.com/'
+  })
+}
 
 export default {
   mode: 'universal',
@@ -67,12 +101,9 @@ export default {
     ]
   },
 
-  env: {
-    dataDir: join(__dirname, 'dist/data')
-  },
-
   loading: { color: '#fff' },
   css: ['@/assets/scss/main.scss'],
+
   plugins: ['@/plugins/composition-api'],
   modules: [
     'nuxt-payload-extractor',
@@ -99,9 +130,7 @@ export default {
 
   svgLoader: {
     svgoConfig: {
-      plugins: [
-        { prefixIds: false } // Disables prefixing for SVG IDs
-      ]
+      plugins: [{ prefixIds: false }]
     }
   },
 
@@ -109,80 +138,18 @@ export default {
     {
       path: '/articles/feed.xml',
       async create(feed) {
-        const {
-          data: { data: articles }
-        } = await api.get('articles')
-
-        const filteredArticles = articles
-          .filter(article => article.status === 'published')
-          .sort((a, b) => {
-            a = new Date(a.date)
-            b = new Date(b.date)
-            return a > b ? 1 : a < b ? -1 : 0
-          })
-
-        feed.options = {
-          title: 'Simon Wuyts - Articles',
-          link: 'https://www.simonwuyts.com/articles/feed.xml'
-        }
-
-        filteredArticles.forEach(article => {
-          feed.addItem({
-            title: article.title,
-            id: article.slug,
-            link: `https://www.simonwuyts.com/articles/${article.slug}`,
-            description: article.introduction,
-            content: article.content
-          })
-        })
-
-        feed.addContributor({
-          name: 'Simon Wuyts',
-          email: 'hi@simonwuyts.com',
-          link: 'https://www.simonwuyts.com/'
-        })
+        await createFeed(feed, 'xml')
       },
       cacheTime: 1000 * 60 * 15,
-      type: 'rss2' // Can be: rss2, atom1, json1
+      type: 'rss2'
     },
     {
       path: '/articles/feed.json',
       async create(feed) {
-        const {
-          data: { data: articles }
-        } = await api.get('articles')
-
-        const filteredArticles = articles
-          .filter(article => article.status === 'published')
-          .sort((a, b) => {
-            a = new Date(a.date)
-            b = new Date(b.date)
-            return a > b ? 1 : a < b ? -1 : 0
-          })
-
-        feed.options = {
-          title: 'Simon Wuyts - Articles',
-          link: 'https://www.simonwuyts.com/articles/feed.json'
-        }
-
-        filteredArticles.forEach(article => {
-          feed.addItem({
-            title: article.title,
-            id: article.slug,
-            link: `https://www.simonwuyts.com/articles/${article.slug}`,
-            description: article.introduction,
-            content: article.content
-          })
-        })
-
-        feed.addContributor({
-          name: 'Simon Wuyts',
-          email: 'hi@simonwuyts.com',
-          link: 'https://www.simonwuyts.com/'
-        })
+        await createFeed(feed, 'json')
       },
       cacheTime: 1000 * 60 * 15,
-      type: 'json1' // Can be: rss2, atom1, json1
+      type: 'json1'
     }
   ],
 

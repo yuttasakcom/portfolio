@@ -1,10 +1,9 @@
 import axios from 'axios'
 
-// Set base URL based on environment
-let baseURL = 'https://portfolio.simonwuyts.eu/portfolio/items'
-
 // Create API instance
-const api = axios.create({ baseURL })
+const api = axios.create({
+  baseURL: 'https://portfolio.simonwuyts.eu/portfolio/items'
+})
 api.interceptors.request.use(config => {
   config.url = config.url + '?fields=*.*'
   return config
