@@ -28,7 +28,7 @@ export default {
       },
       {
         property: 'og:image',
-        content: 'https://www.simonwuyts.com/images/social.png'
+        content: 'https://www.simonwuyts.com/images/share.png'
       },
       {
         property: 'twitter:card',
@@ -36,7 +36,7 @@ export default {
       },
       {
         property: 'twitter:image',
-        content: 'https://www.simonwuyts.com/images/social.png'
+        content: 'https://www.simonwuyts.com/images/share.png'
       },
       {
         property: 'twitter:title',
