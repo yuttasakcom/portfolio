@@ -53,6 +53,16 @@ export default {
         rel: 'stylesheet',
         type: 'text/css',
         href: 'https://rsms.me/inter/inter.css'
+      },
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        href: 'https://www.simonwuyts.com/articles/feed.xml'
+      },
+      {
+        rel: 'alternate',
+        type: 'application/json',
+        href: 'https://www.simonwuyts.com/articles/feed.json'
       }
     ]
   },
