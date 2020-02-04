@@ -3,6 +3,7 @@
     <a
       :href="client.link"
       target="_blank"
+      rel="noopener"
       class="c-client"
       v-for="client in clients"
       :key="client.name"
