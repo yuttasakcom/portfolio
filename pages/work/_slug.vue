@@ -12,7 +12,7 @@
       <img
         class="c-cover__image"
         :src="
-          `https://portfolio.simonwuyts.eu/portfolio/assets/${caseItem.cover.private_hash}?key=caseheader`
+          `https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/thumbnails/w1280,h1280,fcontain,q80/${caseItem.cover.filename_disk}`
         "
         :alt="caseItem.title"
       />

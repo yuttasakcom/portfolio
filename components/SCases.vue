@@ -15,7 +15,7 @@
       <div
         class="c-case__image"
         :style="{
-          'background-image': `url('https://portfolio.simonwuyts.eu/portfolio/assets/${item.cover.private_hash}?key=casethumb')`
+          'background-image': `url('https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/thumbnails/w848,h848,fcontain,q80/${item.cover.filename_disk}')`
         }"
         v-if="item.cover"
       />
