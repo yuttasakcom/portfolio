@@ -64,7 +64,12 @@ export default {
   loading: { color: '#fff' },
   css: ['@/assets/scss/main.scss'],
   plugins: ['@/plugins/composition-api'],
-  modules: ['nuxt-payload-extractor', 'nuxt-svg-loader', '@nuxtjs/sitemap'],
+  modules: [
+    'nuxt-payload-extractor',
+    ['@nuxtjs/feed'],
+    'nuxt-svg-loader',
+    '@nuxtjs/sitemap'
+  ],
   buildModules: ['@nuxt/typescript-build'],
 
   build: {
@@ -89,6 +94,87 @@ export default {
       ]
     }
   },
+
+  feed: [
+    {
+      path: '/articles/feed.xml',
+      async create(feed) {
+        const {
+          data: { data: articles }
+        } = await api.get('articles')
+
+        const filteredArticles = articles
+          .filter(article => article.status === 'published')
+          .sort((a, b) => {
+            a = new Date(a.date)
+            b = new Date(b.date)
+            return a > b ? 1 : a < b ? -1 : 0
+          })
+
+        feed.options = {
+          title: 'Simon Wuyts - Articles',
+          link: 'https://www.simonwuyts.com/articles/feed.xml'
+        }
+
+        filteredArticles.forEach(article => {
+          feed.addItem({
+            title: article.title,
+            id: article.slug,
+            link: `https://www.simonwuyts.com/articles/${article.slug}`,
+            description: article.introduction,
+            content: article.content
+          })
+        })
+
+        feed.addContributor({
+          name: 'Simon Wuyts',
+          email: 'hi@simonwuyts.com',
+          link: 'https://www.simonwuyts.com/'
+        })
+      },
+      cacheTime: 1000 * 60 * 15,
+      type: 'rss2' // Can be: rss2, atom1, json1
+    },
+    {
+      path: '/articles/feed.json',
+      async create(feed) {
+        const {
+          data: { data: articles }
+        } = await api.get('articles')
+
+        const filteredArticles = articles
+          .filter(article => article.status === 'published')
+          .sort((a, b) => {
+            a = new Date(a.date)
+            b = new Date(b.date)
+            return a > b ? 1 : a < b ? -1 : 0
+          })
+
+        feed.options = {
+          title: 'Simon Wuyts - Articles',
+          link: 'https://www.simonwuyts.com/articles/feed.json'
+        }
+
+        filteredArticles.forEach(article => {
+          feed.addItem({
+            title: article.title,
+            id: article.slug,
+            link: `https://www.simonwuyts.com/articles/${article.slug}`,
+            description: article.introduction,
+            content: article.content
+          })
+        })
+
+        feed.addContributor({
+          name: 'Simon Wuyts',
+          email: 'hi@simonwuyts.com',
+          link: 'https://www.simonwuyts.com/'
+        })
+      },
+      cacheTime: 1000 * 60 * 15,
+      type: 'json1' // Can be: rss2, atom1, json1
+    }
+  ],
 
   generate: {
     async routes() {

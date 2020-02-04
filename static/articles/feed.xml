@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Simon Wuyts - Articles</title>
+        <link>https://www.simonwuyts.com/articles/feed.xml</link>
+        <description></description>
+        <lastBuildDate>Tue, 04 Feb 2020 15:29:29 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>https://github.com/nuxt-community/feed-module</generator>
+        <item>
+            <title><![CDATA[Xcode as a Design Tool: the Customizable Tooltips Case]]></title>
+            <link>https://www.simonwuyts.com/articles/xcode-as-a-design-tool-the-customizable-tooltips-case</link>
+            <guid>https://www.simonwuyts.com/articles/xcode-as-a-design-tool-the-customizable-tooltips-case</guid>
+            <description><![CDATA[<p>The other day I was reviewing the implementation of an iOS app design I helped design. While most of the design was looking great, one thing immediately struck my eye. The tooltips I carefully crafted didn&rsquo;t look at all like how I intended them to look. When I asked the developers about it, they said it would be too difficult to implement them without using an existing framework (and its restricted styling options).</p>]]></description>
+            <content:encoded><![CDATA[<figure><img src="https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/5a0f5548-ad4d-4a92-a284-35448444a69b.png" alt="Design vs Implementation" width="1614" height="288" /></figure>
+<p>That made me wonder if I could find an easier way to sneak the right tooltips in. I started diving a bit deeper into drawing and styling custom shapes in Swift/Xcode. Since the tooltips in my design don&rsquo;t need complex animations or interactions, it was not my intent to write a custom tooltip framework (since they already exist). What I did want to explore was how a designer with a base knowledge of programming could contribute to a better handoff of custom styled controls.</p>
+<blockquote>
+<p>What if I could make it as easy for the developer to implement my tooltip design as to drag a button on a storyboard</p>
+</blockquote>
+<p>After digging through <a href="https://developer.apple.com/reference/coregraphics" target="_blank" rel="noreferrer noopener">some</a> <a href="https://developer.apple.com/reference/uikit/uibezierpath" target="_blank" rel="noreferrer noopener">useful</a> <a href="https://developer.apple.com/library/content/referencelibrary/GettingStarted/DevelopiOSAppsSwift/ImplementingACustomControl.html" target="_blank" rel="noreferrer noopener">parts</a> of Apple&rsquo;s iOS development documentation, I decided to address my challenge step by step.</p>
+<h2>Step 1: Goals</h2>
+<p>Before I started writing code, I made a list of goals and requirements:</p>
+<ul>
+<li>The tooltip should look exactly the way I want it to look (including the tilted tip, multiple shadows and padding).</li>
+<li>It should be scalable and should play nice with <a href="https://developer.apple.com/library/content/documentation/UserExperience/Conceptual/AutolayoutPG/index.html" target="_blank" rel="noreferrer noopener">Auto Layout</a>.</li>
+<li>It should be able to contain whatever objects you want it to contain, not just text.</li>
+<li>Adding a tooltip should be as easy as dragging and dropping an object.</li>
+<li>Changing the style of the tooltip should be a matter of tweaking a few variables and should not require much knowledge of the design logic itself.</li>
+</ul>
+<h2>Step 2: The Inspectables</h2>
+<p><img src="https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/92204455-ef19-4e40-9416-2e9141dbefad.png" alt="Inspectables" width="357" height="453" /></p>
+<p>Turns out, you can add the <code>@IBInspectable</code> annotation to make parameters adjustable from the inspector. That's even better than I expected.After creating a new Cocoa class in Xcode (File &gt; New &gt; File&hellip;), naming it <code>TooltipView.swift</code> and making it a subclass of <code>UIView</code>, I added some variables to make things customizable.</p>
+<pre><code class="language-swift">@IBInspectable var arrowTopLeft: Bool = false
+@IBInspectable var arrowTopCenter: Bool = true
+@IBInspectable var arrowTopRight: Bool = false
+@IBInspectable var arrowBottomLeft: Bool = false
+@IBInspectable var arrowBottomCenter: Bool = false
+@IBInspectable var arrowBottomRight: Bool = false
+	
+@IBInspectable var fillColor: UIColor = UIColor.white
+	
+@IBInspectable var borderColor: UIColor = UIColor(red:0, green:0, blue:0, alpha:0.05)
+@IBInspectable var borderRadius: CGFloat = 18
+@IBInspectable var borderWidth: CGFloat = 1
+	
+@IBInspectable var shadowColor: UIColor = UIColor(red:0, green:0, blue:0, alpha:0.14)
+@IBInspectable var shadowOffsetX: CGFloat = 0
+@IBInspectable var shadowOffsetY: CGFloat = 2
+@IBInspectable var shadowBlur: CGFloat = 10</code></pre>
+<h2>Step 3: Here&rsquo;s Where the Math Comes in</h2>
+<p>To translate the tooltip shape to code, I first mapped it on an X and Y axis. Based on three variables, I was able to define all the necessary coordinates: <code>tooltipWidth</code>, <code>tooltipHeight</code> and <code>borderRadius</code>.</p>
+<p><img src="https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/feaf4fde-eb5f-4d75-9ab6-17a10fa7f346.gif" alt="Math" width="1600" height="844" /></p>
+<p><span style="background-color: #eceff1; font-family: 'Roboto Mono', monospace; font-size: 18px;">// Define Bubble Shape</span>Translating this shape to Swift code wasn&rsquo;t that hard, the result is even pretty readable:</p>
+<pre><code class="language-swift">let bubblePath = UIBezierPath()
+	
+// Top left corner
+bubblePath.move(to: topLeft(0, borderRadius))
+bubblePath.addCurve(to: topLeft(borderRadius, 0), controlPoint1: topLeft(0, borderRadius / 2), controlPoint2: topLeft(borderRadius / 2, 0))
+	
+// Top right corner
+bubblePath.addLine(to: topRight(borderRadius, 0))
+bubblePath.addCurve(to: topRight(0, borderRadius), controlPoint1: topRight(borderRadius / 2, 0), controlPoint2: topRight(0, borderRadius / 2))
+	
+// Bottom right corner
+bubblePath.addLine(to: bottomRight(0, borderRadius))
+bubblePath.addCurve(to: bottomRight(borderRadius, 0), controlPoint1: bottomRight(0, borderRadius / 2), controlPoint2: bottomRight(borderRadius / 2, 0))
+	
+// Bottom left corner
+bubblePath.addLine(to: bottomLeft(borderRadius, 0))
+bubblePath.addCurve(to: bottomLeft(0, borderRadius), controlPoint1: bottomLeft(borderRadius / 2, 0), controlPoint2: bottomLeft(0, borderRadius / 2))
+bubblePath.close()</code></pre>
+<p>In the same way, I added the different tooltip arrows to the path. I now had a <code>UIBezierPath</code> object describing the tooltip shape, but my storyboard was still empty.</p>
+<h2>Step 4: Let&rsquo;s Paint</h2>
+<p>The last thing I needed to do before switching to the storyboard, was making sure the path was painted. <code>UIKit</code> lets you stack as many layers on top of each other as you like while reusing the same shape definition. I split the tooltip into three layers (shadow, border and fill) and inserted them into the custom view:</p>
+<pre><code class="language-swift">// Shadow Layer
+let shadowShape = CAShapeLayer()
+shadowShape.path = bubblePath.cgPath
+shadowShape.fillColor = fillColor.cgColor
+shadowShape.shadowColor = shadowColor.cgColor
+shadowShape.shadowOffset = CGSize(width: CGFloat(shadowOffsetX), height: CGFloat(shadowOffsetY))
+shadowShape.shadowRadius = CGFloat(shadowBlur)
+shadowShape.shadowOpacity = 0.8
+	
+// Border Layer
+let borderShape = CAShapeLayer()
+borderShape.path = bubblePath.cgPath
+borderShape.fillColor = fillColor.cgColor
+borderShape.strokeColor = borderColor.cgColor
+borderShape.lineWidth = CGFloat(borderWidth*2)
+	
+// Fill Layer
+let fillShape = CAShapeLayer()
+fillShape.path = bubblePath.cgPath
+fillShape.fillColor = fillColor.cgColor
+	
+// Add Sublayers
+self.layer.insertSublayer(shadowShape, at: 0)
+self.layer.insertSublayer(borderShape, at: 0)
+self.layer.insertSublayer(fillShape, at: 0)</code></pre>
+<h2>Step 5: The Proof of the Pudding</h2>
+<p>Time to put this brand new custom control to the test.</p>
+<p><img src="https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/b6ba7f2e-0efa-4807-bf38-189b9fcf1a1f.gif" alt="Result" width="752" height="811" /></p>
+<p>To my own surprise, I saw exactly the result I had hoped for: a responsive, easy-to-use, framework-free and customizable tooltip. Long story short: Xcode and Swift are remarkably easy when it comes to designing custom iOS controls. They might even spare you (and your developers) a headache.</p>
+<h3>TL;DR</h3>
+<p><strong>By mixing and matching some basic math, Xcode&rsquo;s <code>@IBDesignable</code> and<code>@IBInspectable</code> functionality and a few lines of Swift code, even designers can deliver custom iOS controls.</strong></p>
+<p><a href="https://gist.github.com/simonwuyts/24c4ff3557b9ed9b2fa09cae2ec4fbb7" target="_blank" rel="noreferrer noopener">You can find the full result on Github.</a></p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Two Days of Creative Code: a Thank You Note]]></title>
+            <link>https://www.simonwuyts.com/articles/two-days-of-creative-code-a-thank-you-note</link>
+            <guid>https://www.simonwuyts.com/articles/two-days-of-creative-code-a-thank-you-note</guid>
+            <description><![CDATA[<p>This Thursday and Friday I went to Paris to attend the <a href="http://www.dotcss.io/" target="_blank" rel="noreferrer noopener">dotCSS</a> and <a href="http://www.dotjs.io/" target="_blank" rel="noreferrer noopener">dotJS</a> conferences. As I went all alone, I was a bit nervous about the trip (and about how to behave in such a big intimidating group of talented people). Turned out, the organizers did an excellent job at making a giant crowd feel like a cozy get-together. Even the stage looked like a homely jungle-themed living room. I had an amazing two days: I learned a lot, admired the stylish city (and citizens) of Paris and talked to a bunch of nice and like-minded people. And on top of that, I felt that I had pushed some personal boundaries.</p>]]></description>
+            <content:encoded><![CDATA[<h2>5 Things that Made dotCSS and dotJS a Great Experience for Me</h2>
+<ol>
+<li><strong>The speakers were a treat.</strong> <strong>📣 </strong>Every one of them showed craftsmanship, while still all telling a different story.</li>
+<li><strong>The venue was impressive. 🏰</strong> As was the stage decoration. No better place to start a day full of creativity.</li>
+<li><strong>The food was delicious.</strong> <strong>🥐 </strong>And plenty, too much to taste it all.</li>
+<li><strong>The background music was spot-on. 🎶</strong> From Metronomy to Arcade Fire, it set the perfect mood.</li>
+<li><strong>Everyone was approachable. 👋 </strong>Whether it was someone of the organizing team, one of the speakers, or the lady behind the buffet: everyone was friendly and never more than a few steps away.&zwj;</li>
+</ol>
+<h2>5 Thruths I Learned at dotCSS and dotJS</h2>
+<h3>1. Radio waves contain a lot more secrets than you might expect.</h3>
+<p>After hearing <a href="https://wa.tson.dk/" target="_blank" rel="noreferrer noopener">Thomas Watson</a> &lsquo;s talk on receiving live airplane information with a simple digital TV antenna and some NodeJS, I decided to experiment more with combining hardware and JavaScript to build unexpected experiences.</p>
+<figure><img src="https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/e0893d4a-f939-463f-8b21-9457785cb2af.jpeg" alt="Flights" width="4000" height="3000" /></figure>
+<h3>2. Whether you like the Dropbox rebranding or not, variable fonts are here to stay.</h3>
+<p><a href="https://twitter.com/lorp" target="_blank" rel="noreferrer noopener">Laurence Penney</a> demoed the future of (web) fonts with his own <a href="http://www.axis-praxis.org/specimens/__DEFAULT__" target="_blank" rel="noreferrer noopener">Axis Praxis</a> tool. Long story short: version 1.8 of the OpenType spec features a very smart way to enable font features like x-height, font weight or italic to be set dynamically. This results in much smaller file sizes and opens yet another world of web typography possibilities. Best of all, even a simple website with only three font variations can benefit from this.</p>
+<h3>3. Javascript developers can be funny.</h3>
+<p>Who thought of developers as boring people, think again. In his talk, Feross Aboukhadijeh unveiled in a hilarious way his holy quest to make the most annoying website possible with today&rsquo;s browser technology. You should definitely <a href="http://theannoyingsite.com/" target="_blank" rel="noreferrer noopener">check it out for yourself</a> or read more about it <a href="https://feross.org/" target="_blank" rel="noreferrer noopener">on his blog</a> .</p>
+<h3>4. Web accessibility is more than technology, it&rsquo;s also ethics.</h3>
+<p>Both Marcy Sutton and Suz Hinton talked about accessibility on the web. Suz showed how we can use new technologies like Machine Learning and AI to improve accessibility on almost any website. Marcy, on the other hand, pointed out that making your web projects accessible doesn&rsquo;t have to be hard and that it&rsquo;s often a question of caring. If accessibility only matters to you when it&rsquo;s personal, make it personal. Consciously trying to understand and anticipate to people&rsquo;s needs is more than an afterthought, it can change both peoples lives and your sales numbers.</p>
+<figure><img src="https://s3.eu-west-3.amazonaws.com/simonwuyts-portfolio/599cb006-a2fc-4f92-8cf3-7fa264fec3e0.jpeg" alt="Accessibility" width="4000" height="3000" /></figure>
+<h3>5. There are always some syntax parts you did not know about yet.</h3>
+<ul>
+<li>Turns out <code>place-items: center</code> is short for both <code>align-items: center</code> and <code>justify-items: center</code> , while <code>display: contents</code> "unboxes" the target element's children. Saved another 20 bytes thanks to <a href="https://twitter.com/bdc" target="_blank" rel="noreferrer noopener">Benjamin De Cock</a> .</li>
+<li>Turns out <code>await</code> / <code>async</code> pattern is a nicer way to write Promise-based JavaScript. Can not wait to try it, thanks to <a href="http://wesbos.com/" target="_blank" rel="noreferrer noopener">Wes Bos</a> .</li>
+<li>There&rsquo;s more to media queries than <code>screen</code> and <code>print</code> . If the plans of <a href="https://florian.rivoal.net/" target="_blank" rel="noreferrer noopener">Florian Rivoal</a> and the CSS Working Group gather some browser support, we might soon be querying based on specific target features⸺pointer support, script support or hover support⸺instead of targeting devices itself. The <a href="https://www.w3.org/TR/mediaqueries-4/" target="_blank" rel="noreferrer noopener">W3C Media Queries Level 4 spec proposal</a> is worth giving a read.</li>
+</ul>
+<h3>TL;DR</h3>
+<p>My last two days at dotCSS and dotJS conference exceeded my expectations. I learned lots of new things, met passionate people and hope to be back next year. <em>Merci &agrave; tous!</em></p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Vue.js and D3: A Chart Waiting To Happen]]></title>
+            <link>https://www.simonwuyts.com/articles/vuejs-and-d3-a-chart-waiting-to-happen</link>
+            <guid>https://www.simonwuyts.com/articles/vuejs-and-d3-a-chart-waiting-to-happen</guid>
+            <description><![CDATA[<p>This article is the summary of a talk I gave at the Vue.js Antwerp meetup. For a while now, D3.js has been the go-to JavaScript library for creating custom data visualizations. However, it&rsquo;s sometimes perceived as difficult to get started with or unsuitable for small projects. In this article I will show you how combining D3 and Vue can make your quest for the perfect data visualization a whole lot easier.</p>]]></description>
+            <content:encoded><![CDATA[<figure><iframe id="talk_frame_506814" class="wide" style="border: 0; padding: 0; background: transparent;" src="//speakerdeck.com/player/cdacbd922db34e72a62bf35dec27d95b" width="710" height="399" frameborder="0" allowfullscreen="allowfullscreen"></iframe></figure>
+<p>Right now, I&rsquo;m working on a project called uman.ai, together with <a href="http://ml6.eu/" target="_blank" rel="noreferrer noopener">ML6</a>, a Ghent-based company specialized in Machine Learning. <a href="http://uman.ai/" target="_blank" rel="noreferrer noopener">Uman.ai</a> explores new ways of gaining insight in talents and skills within organizations with the help of Artificial Intelligence. I took on the challenge to find a good interactive visualization for this model.</p>
+<p>After making some first rough sketches, I started exploring well-known existing libraries like <strong>Chart.js</strong> and <strong>Highcharts</strong>. However, none of them turned out to be a good fit for this very specific situation. And this is where <a href="http://d3js.org/" target="_blank" rel="noreferrer noopener"> <strong>D3.js</strong> </a> got in and I first got the idea for this talk.</p>
+<h2>D3.js</h2>
+<p>D3 had always felt kind of unfeasable for me. Most of the demo projects I saw were impressive, but they also looked pretty hard to recreate. For a long time I was convinced D3 was only suited for large and complex projects. I turned out to be wrong.</p>
+<p>Before diving into some code, let me quickly give you an overview of what D3 exactly is. D3 is short for <em>Data Driven Documents</em> and calls itself <em>&ldquo;a JavaScript library for manipulating documents based on data&rdquo;</em>. D3 doesn&rsquo;t include any pre-built visualizations, but provides you with a lot of useful utilities. This list of utilities might look a little intimidating at first, but we will only need a few.</p>
+<p>D3 has a jQuery-like syntax when it comes to defining templates:</p>
+<pre><code class="language-javascript">// Add a  element for every data point
+const leaf = svg.selectAll('g').data(circles)
+
+// Append a styled  to every  element
+leaf
+  .append('circle')
+  .attr('id', d =&gt; d.data.id)
+  .attr('r', d =&gt; d.r)
+  .attr('fill-opacity', 0.7)
+  .attr('fill', d =&gt; d.data.color)
+</code></pre>
+<p>This might work well most of the time, but it feels a little counter-intuitive when you&rsquo;re already using Vue.js in your project. With Vue.js, you&rsquo;re probably used to template code that has a close connection the actual HTML result. In the next part of this article, I will show you how to replace the rendering part in the D3 workflow with Vue&rsquo;s templating system we&rsquo;re already using.</p>
+<h2>Let's write some code</h2>
+<p>For the sake of simplicity, I will use the example of a flower shop here. Let&rsquo;s start with Vue component with nothing more than an empty SVG element and some base data to start from.</p>
+<pre><code class="language-markup">&lt;template&gt;
+  &lt;svg width="500" height="500"&gt;
+  &lt;/svg&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      flowers: [
+        {
+          name: 'Roses',
+          amount: 25,
+          color: '#cc2936'
+        },
+        {
+          name: 'Tulips',
+          amount: 40,
+          color: '#f2c640'
+        },
+        {
+          name: 'Daisies',
+          amount: 15,
+          color: '#2a93d4'
+        },
+        {
+          name: 'Narcissuses',
+          amount: 9,
+          color: '#F7AD0A'
+        }
+      ]
+    }
+  }
+}
+&lt;/script&gt;</code></pre>
+<p>We now need to find out the best way to:</p>
+<ol>
+<li>Render a circle for every type of flower</li>
+<li>Size the circles according to the amount of flowers</li>
+<li>Give each circle the right color</li>
+<li>Find the best position for each circle</li>
+</ol>
+<p>This last one is the trickiest one, since we will need some kind of algorithm to calculate the most optimal positions. The algorithm we need is called <a href="https://en.wikipedia.org/wiki/Circle_packing" target="_blank" rel="noreferrer noopener">Circle Packing</a>. One of the layout utilities D3 offers is the <strong>pack layout</strong>. It takes a data set (which is called a hierarchy here) and outputs a set of packed circles. Exactly what we need.</p>
+<p>However, for D3 to correctly parse our flower data, we have to pass it through in a specific format. Let&rsquo;s use a computed property to transform our original state:</p>
+<pre><code class="language-markup">&lt;template&gt;
+  &lt;svg width="500" height="500"&gt;
+  &lt;/svg&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {
+      flowers: [
+        {
+          name: 'Roses',
+          amount: 25,
+          color: '#cc2936'
+        },
+        {
+          name: 'Tulips',
+          amount: 40,
+          color: '#f2c640'
+        },
+        {
+          name: 'Daisies',
+          amount: 15,
+          color: '#2a93d4'
+        },
+        {
+          name: 'Narcissuses',
+          amount: 9,
+          color: '#F7AD0A'
+        }
+      ]
+    }
+  },
+  computed: {
+    transformedFlowerData() {
+      return {
+        name: 'Top Level',
+        children: this.flowers.map(flower =&gt; ({
+          ...flower,
+          parent: 'Top Level'
+        }))
+      }
+    }
+  }
+}
+&lt;/script&gt;</code></pre>
+<p>Right now, we have everything in place to start using some of D3&rsquo;s magic. Let&rsquo;s import only the parts we need and let D3 do its calculations.</p>
+<pre><code class="language-markup">&lt;template&gt;
+  &lt;svg width="500" height="500"&gt;
+  &lt;/svg&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { hierarchy, pack } from 'd3-hierarchy'
+export default {
+  data() {
+    return {
+      flowers: [
+        {
+          name: 'Roses',
+          amount: 25,
+          color: '#cc2936'
+        },
+        {
+          name: 'Tulips',
+          amount: 40,
+          color: '#f2c640'
+        },
+        {
+          name: 'Daisies',
+          amount: 15,
+          color: '#2a93d4'
+        },
+        {
+          name: 'Narcissuses',
+          amount: 9,
+          color: '#F7AD0A'
+        }
+      ]
+    }
+  },
+  computed: {
+    transformedFlowerData() {
+      return {
+        name: 'Top Level',
+        children: this.flowers.map(flower =&gt; ({
+          ...flower,
+          parent: 'Top Level'
+        }))
+      }
+    },
+
+    layoutData() {
+      // Generate a D3 hierarchy
+      const rootHierarchy =
+        hierarchy(this.transformedFlowerData)
+        .sum(d =&gt; d.size)
+        .sort((a, b) =&gt; {
+          return b.value - a.value
+        })
+      // Pack the circles inside the viewbox
+      return pack()
+        .size([500, 500])
+        .padding(10)(rootHierarchy)
+    }
+  }
+}
+&lt;/script&gt;</code></pre>
+<p>Finally, we can use the layoutData property to compose a template like we would in any other Vue component. Here we use the calculated layout values to add some labels, colors, transforms and sizes.</p>
+<pre><code class="language-markup">&lt;template&gt;
+  &lt;svg width="500" height="500"&gt;
+    &lt;g
+      class="flower"
+      v-for="flower in layoutData.children"
+      :key="flower.data.name"
+      :style="{
+        transform: `translate(${flower.x}px, ${flower.y}px)`
+      }"
+    &gt;
+      &lt;circle
+        class="flower__circle"
+        :r="flower.r"
+        :fill="flower.data.color"
+      /&gt;
+      &lt;text class="flower__label&rdquo;&gt;
+        {{ flower.data.name }}
+      &lt;/text&gt;
+    &lt;/g&gt;
+  &lt;/svg&gt;
+&lt;/template&gt;</code></pre>
+<p>Adding a simple CSS transition will make value changes animate smoothly:</p>
+<pre><code class="language-css">.flower {
+  transition: transform 0.1s ease-in-out;
+}
+
+.flower__circle {
+  transition: r 0.1s ease-in-out;
+}</code></pre>
+<p>The chart now looks just as we intended. You can now expand your component functionality as you like, by adding some controls to alter the state for example:</p>
+<figure><iframe class="wide" style="height: 500px; border: 0; border-radius: 4px; overflow: hidden;" title="Vue.js and D3" src="https://codesandbox.io/embed/6lvzwvpjnn?fontsize=14" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe></figure>
+<h2>Conclusion</h2>
+<p>Nothing is perfect of course, and there are three <strong>caveats</strong> to this technique you should know about.</p>
+<ol>
+<li>For big sets of data, it gets more and more difficult to keep a good performance. Especially when using a lot of animations. However, this also applies when you&rsquo;re using D3 without Vue.js.</li>
+<li>For simple and well-known chart formats, it might still be easier to just use something like Chart.js or Highcharts.</li>
+<li>Some more complex features of D3, like gravity-based animations, spring values or drag and drop-interactions might be a little harder to integrate this way. However, most of them will just work fine.</li>
+</ol>
+<p>Luckily, this technique also has a lot of <strong>advantages</strong>:</p>
+<ol>
+<li>Your code stays very close to the actual result.</li>
+<li>This makes experimenting easy and fast.</li>
+<li>Your code will blend very nicely with your existing Vue.js code.</li>
+<li>Your code will be very approachable. Even someone who only knows HTML and CSS will be able to make adjustments.</li>
+<li>Since you can also use Vue for mobile apps (with for example <a href="https://nativescript.org/" target="_blank" rel="noreferrer noopener">NativeScript</a>or <a href="https://weex.apache.org/" target="_blank" rel="noreferrer noopener">Weex</a>) you can use D3 on virtually any platform that supports Vue.</li>
+</ol>
+<p>I really hope next time your project needs some kind of custom out-of-the-box chart, you&rsquo;ll think of this talk and give D3 a chance. The rest will be up to your imagination.</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
