@@ -39,6 +39,11 @@ export default createComponent({
           hid: 'description',
           name: 'description',
           content: this.article.introduction
+        },
+        {
+          hid: 'ogdescription',
+          property: 'og:description',
+          content: this.article.introduction
         }
       ]
     }

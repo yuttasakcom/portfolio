@@ -31,6 +31,10 @@ export default {
         content: 'https://www.simonwuyts.com/images/share.png'
       },
       {
+        property: 'og:description',
+        content: 'I help other people build digital products.'
+      },
+      {
         property: 'twitter:card',
         content: 'summary_large_image'
       },

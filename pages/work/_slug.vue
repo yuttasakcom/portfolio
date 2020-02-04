@@ -64,6 +64,11 @@ export default createComponent({
           hid: 'description',
           name: 'description',
           content: this.caseItem.introduction
+        },
+        {
+          hid: 'ogdescription',
+          property: 'og:description',
+          content: this.article.introduction
         }
       ]
     }
