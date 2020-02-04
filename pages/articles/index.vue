@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { api } from '~/plugins/cms'
+import { api, getLocal } from '~/plugins/cms'
 import { format } from 'date-fns'
 import { createComponent, ref } from '@vue/composition-api'
 import SLinkList from '~/components/SLinkList.vue'
@@ -51,13 +51,26 @@ export default createComponent({
     }
   },
 
-  async asyncData() {
+  async asyncData({ $payloadURL, route }) {
+    if (process.static && process.client) {
+      const url = $payloadURL(route)
+      return await getLocal($payloadURL(route))
+    }
+
     const [pages, articles] = await Promise.all([api('pages'), api('articles')])
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'articles')[0],
       articles: articles.data.data
         .filter((article: any) => article.status === 'published')
+        .map((article: any) => {
+          return {
+            title: article.title,
+            date: article.date,
+            slug: article.slug,
+            id: article.id
+          }
+        })
         .sort((a, b) => {
           a = new Date(a.date)
           b = new Date(b.date)

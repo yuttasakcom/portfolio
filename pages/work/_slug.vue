@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { api } from '~/plugins/cms'
+import { api, getLocal } from '~/plugins/cms'
 import {
   createComponent,
   ref,
@@ -69,7 +69,12 @@ export default createComponent({
     }
   },
 
-  async asyncData({ params }) {
+  async asyncData({ params, $payloadURL, route }) {
+    if (process.static && process.client) {
+      const url = $payloadURL(route)
+      return await getLocal($payloadURL(route))
+    }
+
     const cases = await api('cases')
 
     return {

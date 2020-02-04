@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { api } from '~/plugins/cms.ts'
+import { api, getLocal } from '~/plugins/cms.ts'
 import { createComponent, ref } from '@vue/composition-api'
 import SCases from '~/components/SCases.vue'
 import SClients from '~/components/SClients.vue'
@@ -50,7 +50,12 @@ export default createComponent({
     }
   },
 
-  async asyncData() {
+  async asyncData({ $payloadURL, route }) {
+    if (process.static && process.client) {
+      const url = $payloadURL(route)
+      return await getLocal($payloadURL(route))
+    }
+
     const [pages, cases, clients] = await Promise.all([
       api('pages'),
       api('cases'),
@@ -59,9 +64,18 @@ export default createComponent({
 
     return {
       page: pages.data.data.filter((page: any) => page.slug === 'work')[0],
-      cases: cases.data.data.filter(
-        (caseItem: any) => caseItem.status === 'published'
-      ),
+      cases: cases.data.data
+        .filter((caseItem: any) => caseItem.status === 'published')
+        .map((caseItem: any) => {
+          return {
+            title: caseItem.title,
+            subtitle: caseItem.subtitle,
+            slug: caseItem.slug,
+            color: caseItem.color,
+            cover: caseItem.cover,
+            id: caseItem.id
+          }
+        }),
       clients: clients.data.data
     }
   }

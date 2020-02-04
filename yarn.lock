@@ -6208,6 +6208,11 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
+nuxt-payload-extractor@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/nuxt-payload-extractor/-/nuxt-payload-extractor-0.0.14.tgz#f2089bf0888d953aeb860055c6b61d541910f0dc"
+  integrity sha512-IocCtYFgubYiaLTaDf8uWmFNU0QcYuuUphbsj+tZP0KC5cpsVEQWy6xUPFSEdpej3nHMjiDMRx4v1SXpsLXAzg==
+
 nuxt-svg-loader@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/nuxt-svg-loader/-/nuxt-svg-loader-1.2.0.tgz#1f2448d5170168b12c4275cd7774a79eee0132ae"

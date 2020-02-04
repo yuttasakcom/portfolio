@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { api } from '~/plugins/cms'
+import { api, getLocal } from '~/plugins/cms'
 import { format } from 'date-fns'
 import { highlightAll } from 'prismjs'
 import 'prism-theme-night-owl/style.min.css'
@@ -44,7 +44,12 @@ export default createComponent({
     }
   },
 
-  async asyncData({ params }) {
+  async asyncData({ params, $payloadURL, route }) {
+    if (process.static && process.client) {
+      const url = $payloadURL(route)
+      return await getLocal($payloadURL(route))
+    }
+
     const articles = await api('articles')
 
     return {

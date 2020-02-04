@@ -60,7 +60,7 @@ export default {
   loading: { color: '#fff' },
   css: ['@/assets/scss/main.scss'],
   plugins: ['@/plugins/composition-api'],
-  modules: ['nuxt-svg-loader', '@nuxtjs/sitemap'],
+  modules: ['nuxt-payload-extractor', 'nuxt-svg-loader', '@nuxtjs/sitemap'],
   buildModules: ['@nuxt/typescript-build'],
 
   build: {

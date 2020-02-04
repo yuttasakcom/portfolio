@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { api } from '~/plugins/cms'
+import { api, getLocal } from '~/plugins/cms'
 import { createComponent, ref } from '@vue/composition-api'
 import SPageTitle from '~/components/SPageTitle.vue'
 import SSocial from '~/components/SSocial.vue'
@@ -27,7 +27,12 @@ export default createComponent({
     }
   },
 
-  async asyncData() {
+  async asyncData({ $payloadURL, route }) {
+    if (process.static && process.client) {
+      const url = $payloadURL(route)
+      return await getLocal($payloadURL(route))
+    }
+
     const pages = await api('pages')
 
     return {
